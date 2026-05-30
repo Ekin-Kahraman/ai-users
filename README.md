@@ -6,22 +6,24 @@ A research tool for visually exploring estimated generative AI usage by country.
 
 ## What's here
 
-The current build covers **147 countries/economies** from Microsoft's public Q1 2026 AI diffusion appendix, spanning about **5.3B** working-age people in the source-covered countries. We join that usage table to UN population data and World Bank infrastructure indicators, then build an interactive treemap where each rectangle's **area** is proportional to estimated Q1 2026 AI users and **colour** shows the selected metric - toggle between total users, adoption rate, recent momentum, infrastructure readiness, above/below expected adoption, potential users, internet intensity, and region.
+The current build covers **147 countries/economies** from Microsoft's public Q1 2026 AI diffusion appendix. It joins that usage table to UN working-age population data and World Bank infrastructure indicators, then builds an interactive treemap where each rectangle's **area** is proportional to estimated Q1 2026 AI users and **colour** shows the selected metric.
 
-The headline estimate is about **948.1M** Q1 2026 working-age AI users in the countries covered by the source data.
+The headline estimate is about **948.1M** Q1 2026 working-age AI users across the countries covered by the source data.
 
 ## Model-powered colouring
 
-The repo includes a small data pipeline for writing custom country-level metrics into the static site. The default layers are source-backed metrics and transparent model outputs:
+The repo includes a reproducible pipeline for writing country-level metrics into a static treemap. The default layers are:
 
 - **Users** - estimated Q1 2026 AI users.
 - **Adoption Rate** - Q1 2026 AI diffusion share.
 - **Momentum** - percentage-point growth from H2 2025 to Q1 2026.
-- **Readiness** - a weighted score from internet access, electricity access, and GDP per head.
+- **Readiness** - weighted internet access, electricity access, and GDP per head.
 - **Above Expected** - actual Q1 2026 AI share minus an infrastructure-only expected share.
 - **Potential Users** - reachable working-age non-users under the access ceiling model.
 - **Internet Intensity** - AI share divided by internet access.
 - **Region** - World Bank region grouping.
+
+`scores.json` is the deterministic score artefact for these model layers. It is the local equivalent of the generated score file in [karpathy/jobs](https://github.com/karpathy/jobs), but the scores here are formula/model outputs rather than LLM judgements.
 
 **What these estimates are NOT:**
 
@@ -29,7 +31,6 @@ The repo includes a small data pipeline for writing custom country-level metrics
 - They do **not** predict future adoption.
 - They do **not** use a fabricated 2024 country baseline. The comparable Microsoft country series in this build starts at H1 2025, so the growth series is H1 2025 -> H2 2025 -> Q1 2026.
 - They do **not** imply that infrastructure causes adoption. Above/below expected adoption is directional and exploratory.
-- Above/below expected scoring is only calculated for countries with complete internet, electricity, and GDP inputs.
 - They are modelled estimates from public sources, not official statistics.
 
 ## Data pipeline
@@ -38,21 +39,25 @@ The repo includes a small data pipeline for writing custom country-level metrics
 2. **Extract table** (`build_site_data.py`) - uses `pdftotext -layout` to parse the report appendix into H1 2025, H2 2025, and Q1 2026 country shares.
 3. **Fetch population denominators** (`build_site_data.py`) - downloads UN World Population Prospects working-age population data through Our World in Data.
 4. **Fetch infrastructure data** (`build_site_data.py`) - downloads World Bank country metadata plus internet access, electricity access, and GDP per capita indicators.
-5. **Join and model** (`build_site_data.py`) - matches countries by ISO3 code, computes estimated users, growth, readiness, potential users, internet intensity, and above/below expected adoption.
-6. **Build site data** (`build_site_data.py`) - writes `country_usage.csv`, `site/data.json`, and `site/data.js`.
-7. **Website** (`site/index.html`) - renders the interactive treemap as a static site with no build step.
+5. **Join and model** (`build_site_data.py`) - computes estimated users, growth, readiness, potential users, internet intensity, and above/below expected adoption.
+6. **Build score and audit files** (`build_site_data.py`) - writes `scores.json` and `data_audit.json`.
+7. **Build site data** (`build_site_data.py`) - writes `country_usage.csv`, `site/data.json`, and `site/data.js`.
+8. **Website** (`site/index.html`) - renders the interactive treemap as a static site with no build step.
 
 ## Key files
 
 | File | Description |
 |------|-------------|
-| `country_usage.csv` | Generated country table with estimates, growth metrics, infrastructure fields, above/below expected adoption, ranks, and source URL |
+| `country_usage.csv` | Generated country table with estimates, growth metrics, infrastructure fields, model gaps, ranks, and source URL |
+| `scores.json` | Deterministic country score artefact for readiness, expected adoption, diffusion gap, and headroom |
+| `data_audit.json` | Generated coverage and validation audit: source years, missing infrastructure inputs, formula checks, and totals checks |
 | `site/data.json` | Generated JSON consumed by the static frontend |
 | `site/data.js` | Generated browser fallback so `site/index.html` can be opened directly from disk |
 | `site/index.html` | Static treemap visualisation |
 | `build_site_data.py` | Reproducible data pipeline using public source URLs |
 | `make_prompt.py` | Generates `prompt.md` from the built data |
 | `prompt.md` | Data-grounded prompt for discussing the estimates in an LLM |
+| `launch.md` | Copy-ready launch notes and posts for sharing the project |
 | `data/raw/` | Cached downloaded source PDF, extracted text, CSV, and JSON files |
 
 ## Source stack
@@ -66,7 +71,7 @@ The repo includes a small data pipeline for writing custom country-level metrics
 | GDP per head | [World Bank WDI: GDP per capita, current US dollars](https://data.worldbank.org/indicator/NY.GDP.PCAP.CD) | Latest available value up to 2024, log-scaled in the model |
 | Regions and income groups | [World Bank country API](https://api.worldbank.org/v2/country) | Display metadata and grouping |
 
-World Bank internet access is source-backed for **145** of the 147 countries. **138** values are from 2024, **7** use the latest older available World Bank value, and **Taiwan** plus **French Guiana** are missing from the World Bank infrastructure join.
+`data_audit.json` currently reports World Bank internet access for **145** of 147 countries. **138** internet values are from 2024, **7** use the latest older available World Bank value, and **Taiwan** plus **French Guiana** are missing from the World Bank infrastructure join.
 
 ## Estimate definitions
 
@@ -74,37 +79,11 @@ World Bank internet access is source-backed for **145** of the 147 countries. **
 estimated_ai_users = ai_share_pct / 100 * working_age_population
 ```
 
-The main current estimate uses:
-
-```text
-estimated_ai_users_q1_2026 =
-  ai_share_q1_2026_pct / 100 * working_age_population_2026
-```
-
-Comparable growth metrics use the Microsoft appendix periods:
-
-```text
-h1_to_h2_growth_pct = (h2_users - h1_users) / h1_users * 100
-h2_to_q1_growth_pct = (q1_users - h2_users) / h2_users * 100
-h1_to_q1_growth_pct = (q1_users - h1_users) / h1_users * 100
-```
-
-The source-covered total moved from about **798.0M** users in H1 2025 to **862.3M** in H2 2025 and **948.1M** in Q1 2026.
-
-## Infrastructure model
-
 ```text
 readiness_score =
   0.55 * internet_user_pct
 + 0.25 * electricity_access_pct
 + 0.20 * log_scaled_gdp_per_capita
-```
-
-```text
-access_ceiling_pct = min(internet_user_pct, electricity_access_pct)
-access_headroom_users =
-  max(0, access_ceiling_pct - ai_share_q1_2026_pct)
-  / 100 * working_age_population_2026
 ```
 
 ```text
@@ -116,11 +95,11 @@ diffusion_gap_pp =
   ai_share_q1_2026_pct - modelled_ai_share_q1_2026_pct
 ```
 
-The model currently scores **145** of the 147 source-covered countries. Countries missing any infrastructure input are shown as unmodelled rather than imputed.
+The source-covered total moved from about **798.0M** users in H1 2025 to **862.3M** in H2 2025 and **948.1M** in Q1 2026.
 
 ## LLM prompt
 
-[`prompt.md`](prompt.md) packages the source definition, caveats, summary statistics, top countries, model outputs, citations, and CSV into a single file designed to be pasted into an LLM. Regenerate it with:
+[`prompt.md`](prompt.md) packages the source definition, caveats, summary statistics, regional and income-group cuts, model outputs, source coverage audit, citations, and CSV into a single file designed to be pasted into an LLM. Regenerate it with:
 
 ```bash
 python3 make_prompt.py
@@ -143,7 +122,7 @@ brew install poppler
 ## Usage
 
 ```bash
-# Rebuild source data, CSV, and site payloads
+# Rebuild source data, CSV, score, audit, and site payloads
 python3 build_site_data.py
 
 # Regenerate the LLM prompt
@@ -157,7 +136,7 @@ Then open `http://localhost:8000`. You can also open `site/index.html` directly 
 
 ## Attribution and compliance
 
-Inspired by [Andrej Karpathy's `karpathy/jobs`](https://github.com/karpathy/jobs), especially the small static-site shape: a reproducible data pipeline, generated site data, and an interactive treemap.
+Inspired by [Andrej Karpathy's `karpathy/jobs`](https://github.com/karpathy/jobs), especially the small static-site shape: a reproducible data pipeline, generated site data, generated score/prompt artefacts, and an interactive treemap. When in doubt about the intended benchmark shape, compare against that repo rather than copying its code or prose.
 
 Technical note: the site is static HTML, CSS, and JavaScript. There is no Java runtime; JavaScript is used because it runs natively in browsers and drives the interactive treemap.
 
@@ -166,4 +145,4 @@ Compliance check, 2026-05-30:
 - GitHub reports `karpathy/jobs` with `license: null`.
 - The upstream root currently has no `LICENSE`, `LICENSE.md`, `LICENSE.txt`, `COPYING`, `NOTICE`, or `SECURITY.md` file.
 - GitHub's security advisory API returned zero public advisories for `karpathy/jobs`.
-- Because there is no explicit upstream licence, this project should credit the inspiration and avoid copying upstream code or README prose verbatim.
+- Because there is no explicit upstream licence, this project credits the inspiration and does not copy upstream code or README prose verbatim.

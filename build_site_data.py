@@ -8,6 +8,8 @@ datasets, then writes:
     country_usage.csv
     site/data.json
     site/data.js
+    scores.json
+    data_audit.json
     data/raw/*
 
 Usage:
@@ -24,6 +26,7 @@ import shutil
 import subprocess
 import tempfile
 import urllib.request
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -377,6 +380,180 @@ def fit_infrastructure_model(rows: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def make_scores(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Write deterministic country scores in a benchmark-style artefact."""
+    scores: list[dict[str, Any]] = []
+    for row in rows:
+        gap = row.get("diffusion_gap_pp")
+        if gap is None:
+            rationale = "Not scored because at least one infrastructure input is missing."
+        elif gap >= 0:
+            rationale = "Actual Q1 2026 AI share is above the infrastructure-only expected share."
+        else:
+            rationale = "Actual Q1 2026 AI share is below the infrastructure-only expected share."
+
+        scores.append(
+            {
+                "country": row["country"],
+                "code": row["code"],
+                "region": row["region"],
+                "estimated_ai_users_q1_2026": row["estimated_ai_users_q1_2026"],
+                "ai_share_q1_2026_pct": row["ai_share_q1_2026_pct"],
+                "readiness_score": row.get("readiness_score"),
+                "modelled_ai_share_q1_2026_pct": row.get("modelled_ai_share_q1_2026_pct"),
+                "diffusion_gap_pp": gap,
+                "access_headroom_users": row.get("access_headroom_users"),
+                "internet_user_pct": row.get("internet_user_pct"),
+                "electricity_access_pct": row.get("electricity_access_pct"),
+                "gdp_per_capita_usd": row.get("gdp_per_capita_usd"),
+                "rationale": rationale,
+            }
+        )
+    return scores
+
+
+def round_metric(value: float | int | None, digits: int = 3) -> float | int | None:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    return round(value, digits)
+
+
+def year_distribution(rows: list[dict[str, Any]], year_key: str) -> dict[str, int]:
+    counts = Counter(str(row.get(year_key) or "missing") for row in rows)
+    return dict(sorted(counts.items(), key=lambda item: item[0]))
+
+
+def missing_for_keys(rows: list[dict[str, Any]], keys: list[str]) -> list[dict[str, Any]]:
+    missing = []
+    for row in rows:
+        missing_keys = [key for key in keys if row.get(key) is None]
+        if missing_keys:
+            missing.append(
+                {
+                    "country": row["country"],
+                    "code": row["code"],
+                    "missing": missing_keys,
+                }
+            )
+    return missing
+
+
+def make_data_audit(rows: list[dict[str, Any]], summary: dict[str, Any]) -> dict[str, Any]:
+    formula_failures: list[dict[str, Any]] = []
+    for row in rows:
+        checks = {
+            "estimated_ai_users_h1_2025": round(
+                row["working_age_population_2025"] * row["ai_share_h1_2025_pct"] / 100
+            ),
+            "estimated_ai_users_h2_2025": round(
+                row["working_age_population_2025"] * row["ai_share_h2_2025_pct"] / 100
+            ),
+            "estimated_ai_users_q1_2026": round(
+                row["working_age_population_2026"] * row["ai_share_q1_2026_pct"] / 100
+            ),
+        }
+        failed = [key for key, expected in checks.items() if expected != row[key]]
+        if failed:
+            formula_failures.append(
+                {
+                    "country": row["country"],
+                    "code": row["code"],
+                    "failed_fields": failed,
+                }
+            )
+
+    infrastructure_keys = [
+        "internet_user_pct",
+        "electricity_access_pct",
+        "gdp_per_capita_usd",
+    ]
+
+    older_internet = [
+        {
+            "country": row["country"],
+            "code": row["code"],
+            "year": row["internet_year"],
+            "value": round_metric(row["internet_user_pct"]),
+        }
+        for row in rows
+        if row.get("internet_year") is not None
+        and row["internet_year"] < WORLD_BANK_CUTOFF_YEAR
+    ]
+    older_gdp = [
+        {
+            "country": row["country"],
+            "code": row["code"],
+            "year": row["gdp_year"],
+            "value": round_metric(row["gdp_per_capita_usd"]),
+        }
+        for row in rows
+        if row.get("gdp_year") is not None
+        and row["gdp_year"] < WORLD_BANK_CUTOFF_YEAR
+    ]
+
+    return {
+        "generated_at": summary["generated_at"],
+        "benchmark_reference": "https://github.com/karpathy/jobs",
+        "country_count": len(rows),
+        "formula_checks": {
+            "estimated_user_formula": summary["formulas"]["estimated_ai_users"],
+            "passed": not formula_failures,
+            "failure_count": len(formula_failures),
+            "failures": formula_failures,
+        },
+        "totals_match_site_summary": {
+            "total_estimated_ai_users_q1_2026": sum(
+                row["estimated_ai_users_q1_2026"] for row in rows
+            )
+            == summary["total_estimated_ai_users_q1_2026"],
+            "total_estimated_ai_users_h2_2025": sum(
+                row["estimated_ai_users_h2_2025"] for row in rows
+            )
+            == summary["total_estimated_ai_users_h2_2025"],
+            "total_estimated_ai_users_h1_2025": sum(
+                row["estimated_ai_users_h1_2025"] for row in rows
+            )
+            == summary["total_estimated_ai_users_h1_2025"],
+        },
+        "source_coverage": {
+            "ai_diffusion": {
+                "source": summary["sources"]["ai_diffusion"]["url"],
+                "countries": len(rows),
+                "periods": ["H1 2025", "H2 2025", "Q1 2026"],
+            },
+            "internet_access": {
+                "present": sum(1 for row in rows if row.get("internet_user_pct") is not None),
+                "missing": sum(1 for row in rows if row.get("internet_user_pct") is None),
+                "year_distribution": year_distribution(rows, "internet_year"),
+                "older_than_2024": older_internet,
+            },
+            "electricity_access": {
+                "present": sum(
+                    1 for row in rows if row.get("electricity_access_pct") is not None
+                ),
+                "missing": sum(
+                    1 for row in rows if row.get("electricity_access_pct") is None
+                ),
+                "year_distribution": year_distribution(rows, "electricity_year"),
+            },
+            "gdp_per_capita": {
+                "present": sum(1 for row in rows if row.get("gdp_per_capita_usd") is not None),
+                "missing": sum(1 for row in rows if row.get("gdp_per_capita_usd") is None),
+                "year_distribution": year_distribution(rows, "gdp_year"),
+                "older_than_2024": older_gdp,
+            },
+        },
+        "missing_infrastructure_inputs": missing_for_keys(rows, infrastructure_keys),
+        "model": {
+            "modelled_country_count": summary["modelled_country_count"],
+            "training_country_count": summary["infrastructure_model"]["training_country_count"],
+            "missing_inputs_policy": summary["infrastructure_model"]["missing_inputs_policy"],
+        },
+    }
+
+
 def build_rows() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     pdf_bytes = fetch(MICROSOFT_Q1_2026_PDF_URL)
     write_raw("Microsoft-AI-Diffusion-Report-2026-Q1.pdf", pdf_bytes)
@@ -711,12 +888,27 @@ def write_site_data(rows: list[dict[str, Any]], summary: dict[str, Any]) -> None
         handle.write(";\n")
 
 
+def write_scores(rows: list[dict[str, Any]]) -> None:
+    with (ROOT / "scores.json").open("w", encoding="utf-8") as handle:
+        json.dump(make_scores(rows), handle, indent=2)
+        handle.write("\n")
+
+
+def write_data_audit(rows: list[dict[str, Any]], summary: dict[str, Any]) -> None:
+    with (ROOT / "data_audit.json").open("w", encoding="utf-8") as handle:
+        json.dump(make_data_audit(rows, summary), handle, indent=2)
+        handle.write("\n")
+
+
 def main() -> int:
     rows, summary = build_rows()
     write_csv(rows)
     write_site_data(rows, summary)
+    write_scores(rows)
+    write_data_audit(rows, summary)
 
     print(f"Wrote {len(rows)} countries to country_usage.csv and site/data.json")
+    print("Wrote scores.json and data_audit.json")
     print(f"Q1 2026 estimated AI users: {summary['total_estimated_ai_users_q1_2026']:,}")
     print(f"H2 2025 to Q1 2026 user change: {summary['estimated_user_change_h2_to_q1']:,}")
     print(f"Weighted Q1 2026 AI user share: {summary['weighted_ai_user_share_q1_2026_pct']:.1f}%")

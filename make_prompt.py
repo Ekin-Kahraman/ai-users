@@ -44,16 +44,20 @@ def make_csv(rows: list[dict[str, Any]]) -> str:
         "country",
         "code",
         "region",
+        "income_group",
         "ai_share_h1_2025_pct",
         "ai_share_h2_2025_pct",
         "ai_share_q1_2026_pct",
         "h1_to_h2_change_pp",
         "h2_to_q1_change_pp",
+        "h1_to_q1_growth_pct",
         "estimated_user_change_h1_to_h2",
         "estimated_ai_users_q1_2026",
         "estimated_user_change_h2_to_q1",
         "internet_user_pct",
+        "internet_year",
         "electricity_access_pct",
+        "electricity_year",
         "readiness_score",
         "access_headroom_users",
         "modelled_ai_share_q1_2026_pct",
@@ -67,8 +71,56 @@ def make_csv(rows: list[dict[str, Any]]) -> str:
     return buffer.getvalue()
 
 
+def aggregate(rows: list[dict[str, Any]], group_key: str) -> list[dict[str, Any]]:
+    groups: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        key = row.get(group_key) or "Unclassified"
+        group = groups.setdefault(
+            key,
+            {
+                "name": key,
+                "countries": 0,
+                "users_q1_2026": 0,
+                "users_h2_2025": 0,
+                "users_h1_2025": 0,
+                "population_2026": 0,
+                "headroom": 0,
+            },
+        )
+        group["countries"] += 1
+        group["users_q1_2026"] += row["estimated_ai_users_q1_2026"]
+        group["users_h2_2025"] += row["estimated_ai_users_h2_2025"]
+        group["users_h1_2025"] += row["estimated_ai_users_h1_2025"]
+        group["population_2026"] += row["working_age_population_2026"]
+        group["headroom"] += row.get("access_headroom_users") or 0
+
+    out = []
+    for group in groups.values():
+        q1_users = group["users_q1_2026"]
+        h2_users = group["users_h2_2025"]
+        h1_users = group["users_h1_2025"]
+        population = group["population_2026"]
+        out.append(
+            {
+                **group,
+                "weighted_share_q1_2026_pct": q1_users / population * 100
+                if population
+                else None,
+                "h2_to_q1_growth_pct": (q1_users - h2_users) / h2_users * 100
+                if h2_users
+                else None,
+                "h1_to_q1_growth_pct": (q1_users - h1_users) / h1_users * 100
+                if h1_users
+                else None,
+            }
+        )
+    return sorted(out, key=lambda row: row["users_q1_2026"], reverse=True)
+
+
 def main() -> int:
     data = json.loads((ROOT / "site" / "data.json").read_text(encoding="utf-8"))
+    audit_path = ROOT / "data_audit.json"
+    audit = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path.exists() else None
     summary = data["summary"]
     rows = data["countries"]
 
@@ -83,9 +135,11 @@ def main() -> int:
         key=lambda row: row["access_headroom_users"],
         reverse=True,
     )[:15]
+    region_aggregates = aggregate(rows, "region")
+    income_aggregates = aggregate(rows, "income_group")
 
     lines = [
-        "# AI usage atlas prompt",
+        "# AI Users prompt",
         "",
         "You are analysing a source-backed prototype dataset for estimated generative AI usage by country.",
         "",
@@ -128,6 +182,59 @@ def main() -> int:
         f"- Potential users under access model: {format_count(summary['total_access_headroom_users'])}",
         f"- Infrastructure model training countries: {summary['infrastructure_model']['training_country_count']}",
         f"- Countries with above/below expected scores: {summary['modelled_country_count']}",
+        "",
+        "Source coverage audit:",
+        "",
+    ]
+
+    if audit:
+        internet = audit["source_coverage"]["internet_access"]
+        electricity = audit["source_coverage"]["electricity_access"]
+        gdp = audit["source_coverage"]["gdp_per_capita"]
+        missing = ", ".join(
+            f"{row['country']} ({row['code']})"
+            for row in audit["missing_infrastructure_inputs"]
+        )
+        lines += [
+            f"- Formula checks passed: {audit['formula_checks']['passed']}",
+            f"- Internet access coverage: {internet['present']}/{summary['country_count']} countries",
+            f"- Internet access year distribution: {internet['year_distribution']}",
+            f"- Electricity access coverage: {electricity['present']}/{summary['country_count']} countries",
+            f"- Electricity access year distribution: {electricity['year_distribution']}",
+            f"- GDP per capita coverage: {gdp['present']}/{summary['country_count']} countries",
+            f"- GDP per capita year distribution: {gdp['year_distribution']}",
+            f"- Missing infrastructure inputs: {missing or 'none'}",
+            "",
+        ]
+    else:
+        lines += [
+            "- data_audit.json was not present when this prompt was generated.",
+            "",
+        ]
+
+    lines += [
+        "Regional aggregates:",
+        "",
+    ]
+
+    for row in region_aggregates:
+        lines.append(
+            f"- {row['name']}: {format_count(row['users_q1_2026'])} Q1 2026 users, "
+            f"{format_pct(row['weighted_share_q1_2026_pct'])} weighted share, "
+            f"{format_pct(row['h2_to_q1_growth_pct'])} H2-to-Q1 user growth, "
+            f"{row['countries']} countries"
+        )
+
+    lines += ["", "Income-group aggregates:", ""]
+    for row in income_aggregates:
+        lines.append(
+            f"- {row['name']}: {format_count(row['users_q1_2026'])} Q1 2026 users, "
+            f"{format_pct(row['weighted_share_q1_2026_pct'])} weighted share, "
+            f"{format_pct(row['h2_to_q1_growth_pct'])} H2-to-Q1 user growth, "
+            f"{row['countries']} countries"
+        )
+
+    lines += [
         "",
         "Top countries by estimated Q1 2026 users:",
         "",

@@ -1,0 +1,169 @@
+{
+  "generated_at": "2026-05-30T19:12:03+00:00",
+  "benchmark_reference": "https://github.com/karpathy/jobs",
+  "country_count": 147,
+  "formula_checks": {
+    "estimated_user_formula": "ai_share_pct / 100 * working_age_population",
+    "passed": true,
+    "failure_count": 0,
+    "failures": []
+  },
+  "totals_match_site_summary": {
+    "total_estimated_ai_users_q1_2026": true,
+    "total_estimated_ai_users_h2_2025": true,
+    "total_estimated_ai_users_h1_2025": true
+  },
+  "source_coverage": {
+    "ai_diffusion": {
+      "source": "https://www.microsoft.com/en-us/research/wp-content/uploads/2026/05/Microsoft-AI-Diffusion-Report-2026-Q1.pdf",
+      "countries": 147,
+      "periods": [
+        "H1 2025",
+        "H2 2025",
+        "Q1 2026"
+      ]
+    },
+    "internet_access": {
+      "present": 145,
+      "missing": 2,
+      "year_distribution": {
+        "2016": 1,
+        "2017": 1,
+        "2018": 1,
+        "2019": 1,
+        "2020": 2,
+        "2023": 1,
+        "2024": 138,
+        "missing": 2
+      },
+      "older_than_2024": [
+        {
+          "country": "Myanmar",
+          "code": "MMR",
+          "year": 2020,
+          "value": 45.448
+        },
+        {
+          "country": "Sudan",
+          "code": "SDN",
+          "year": 2017,
+          "value": 18.6
+        },
+        {
+          "country": "Syria",
+          "code": "SYR",
+          "year": 2018,
+          "value": 33.77
+        },
+        {
+          "country": "South Sudan",
+          "code": "SSD",
+          "year": 2019,
+          "value": 6.671
+        },
+        {
+          "country": "Turkmenistan",
+          "code": "TKM",
+          "year": 2016,
+          "value": 17.99
+        },
+        {
+          "country": "Eritrea",
+          "code": "ERI",
+          "year": 2020,
+          "value": 14.349
+        },
+        {
+          "country": "Suriname",
+          "code": "SUR",
+          "year": 2023,
+          "value": 87.4
+        }
+      ]
+    },
+    "electricity_access": {
+      "present": 145,
+      "missing": 2,
+      "year_distribution": {
+        "2023": 145,
+        "missing": 2
+      }
+    },
+    "gdp_per_capita": {
+      "present": 145,
+      "missing": 2,
+      "year_distribution": {
+        "2011": 1,
+        "2015": 1,
+        "2020": 1,
+        "2022": 1,
+        "2023": 2,
+        "2024": 139,
+        "missing": 2
+      },
+      "older_than_2024": [
+        {
+          "country": "Afghanistan",
+          "code": "AFG",
+          "year": 2023,
+          "value": 413.758
+        },
+        {
+          "country": "Syria",
+          "code": "SYR",
+          "year": 2022,
+          "value": 1051.671
+        },
+        {
+          "country": "Lebanon",
+          "code": "LBN",
+          "year": 2023,
+          "value": 3477.725
+        },
+        {
+          "country": "South Sudan",
+          "code": "SSD",
+          "year": 2015,
+          "value": 1080.147
+        },
+        {
+          "country": "Cuba",
+          "code": "CUB",
+          "year": 2020,
+          "value": 9605.279
+        },
+        {
+          "country": "Eritrea",
+          "code": "ERI",
+          "year": 2011,
+          "value": 688.682
+        }
+      ]
+    }
+  },
+  "missing_infrastructure_inputs": [
+    {
+      "country": "Taiwan",
+      "code": "TWN",
+      "missing": [
+        "internet_user_pct",
+        "electricity_access_pct",
+        "gdp_per_capita_usd"
+      ]
+    },
+    {
+      "country": "French Guiana",
+      "code": "GUF",
+      "missing": [
+        "internet_user_pct",
+        "electricity_access_pct",
+        "gdp_per_capita_usd"
+      ]
+    }
+  ],
+  "model": {
+    "modelled_country_count": 145,
+    "training_country_count": 145,
+    "missing_inputs_policy": "Countries missing any infrastructure feature are excluded from model-gap scoring."
+  }
+}
