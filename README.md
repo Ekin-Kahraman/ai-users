@@ -159,11 +159,6 @@ Then open `http://localhost:8000`. You can also open `site/index.html` directly 
 
 Inspired by [Andrej Karpathy's `karpathy/jobs`](https://github.com/karpathy/jobs), especially the small static-site shape: a reproducible data pipeline, generated site data, and an interactive treemap.
 
-Contributors:
-
-- [Ekin Kahraman](https://github.com/Ekin-Kahraman)
-- Codex
-
 Technical note: the site is static HTML, CSS, and JavaScript. There is no Java runtime; JavaScript is used because it runs natively in browsers and drives the interactive treemap.
 
 Compliance check, 2026-05-30:
