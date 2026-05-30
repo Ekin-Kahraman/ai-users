@@ -1,0 +1,942 @@
+Global AI Diffusion
+Q1 2026 Trends and Insights
+
+
+
+
+                              May, 2026
+                                                                                          Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Executive Summary
+
+
+The global adoption of artificial intelligence continued to       Notable developments in the quarter included accelerating
+rise in the first quarter of 2026. During the quarter, AI usage   AI adoption in Asia driven in part by improving AI capabilities
+increased by 1.5 percentage points from 16.3% to 17.8%            in Asian languages. South Korea, Thailand, and Japan saw
+of the world’s working age population. Intensity of use           the greatest movement. More broadly, the quarter brought
+among economies with the highest rates of AI diffusion also       continued widening of the AI gap between the Global North
+increased, with 26 economies now exceeding 30% of the             and South, with usage now at 27.5% in the North and 15.4%
+working age population using AI.                                  in the South. These trends are discussed below, including a
+                                                                  deeper dive on the positive impact of enhanced multilingual
+At the top of Microsoft’s National AI Leaderboard, the UAE        AI capabilities in Japan.
+continued to lead global AI diffusion at 70.1%. The United
+States finally started to move up the national rankings, albeit
+only from 24th to 21st based on a 31.3% usage rate by the
+working age population.
+
+
+
+
+AI diffusion by economy, March 2026
+AI user share
+
+    10% 20% 30%               Insufficient data
+
+                                                    Norway
+                                                     48.6%
+                                        Ireland
+                                         48.4%
+                                             France
+                                             47.8%
+
+                                                                                  UAE
+                                                                                 70.1%
+
+                                                                                         Singapore
+                                                                                           63.4%
+
+
+
+
+2
+                                                                                        Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+To track all these trends, we continue to measure AI diffusion   Interestingly, the quarter brought added evidence that,
+as the share of people worldwide between ages of 15              at least for now, AI coding capabilities may be increasing
+and 64 who have used a generative AI product during the          demand for the employment of software developers.
+reported period. This measure is derived from aggregated         As discussed in more detail below, when developer
+and anonymized Microsoft telemetry and adjusted to               productivity increases, the cost of building software
+reflect differences in OS and device-market share, internet      declines. If demand for software is elastic, organizations
+penetration, and country population. Additional details on       can respond by building more software across a wider
+the methodology are available in our AI Diffusion technical      range of use cases, including across broader economic
+paper. [1]                                                       sectors. It is still too early to know the full labor-market
+                                                                 impact of AI-assisted coding, and this may change over
+No single metric is perfect, and this one is no exception.       time. But the available data shows that in 2025, total U.S.
+Through the Microsoft AI Economy Institute, we continue          software developer employment reached approximately
+to refine how we measure AI diffusion globally, including        2.2 million, rising 8.5% year over year and marking a record
+how adoption varies across countries in ways that                high for the profession. Early data for the first quarter of
+best advance priorities such as scientific discovery and         2026 shows that software developer employment in March
+productivity gains. For this report, we rely on the strongest    2026 was about 4% higher than in March 2025.
+cross-country measure available today, and we expect to
+complement it over time with additional indicators as they
+emerge and mature.
+
+Sectorally, the quarter saw strengthened AI coding
+capabilities leading to a dramatic increase in production
+of software code. This was reflected in production by
+Anthropic’s Claude Code, the OpenAI’s Codex, and
+Microsoft’s GitHub Copilot. Git pushes – through which
+software developers put coding changes online – increased
+78% year over year globally.
+
+
+
+
+                                                                                                                                     3
+                                                                   Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+                            Al diffusion over time by economy
+
+         H2 2025 AI diffusion                          Q1 2026 AI diffusion
+
+    1    United Arab Emirates    64.0%            1    United Arab Emirates                70.1%          6.1%
+    2    Singapore               60.9%            2    Singapore                           63.4%          2.5%
+    3    Norway                  46.4%            3    Norway                              48.6%          2.2%
+    4    Ireland                 44.6%            4    Ireland                             48.4%          3.8%
+    5    France                  44.0%            5    France                              47.8%          3.8%
+    6    Spain                   41.8%            6    Spain                               44.2%          2.4%
+    7    New Zealand             40.5%            7    New Zealand                         43.0%          2.5%
+    8    United Kingdom          38.9%            8    United Kingdom                      42.2%          3.3%
+    9    Netherlands             38.9%            9    Netherlands                         42.1%          3.2%
+    10   Qatar                   38.3%            10   Qatar                               41.8%          3.5%
+    11   Australia               36.9%            11   Australia                           39.5%          2.6%
+    12   Israel                  36.1%            12   Belgium                             39.0%          3.0%
+    13   Belgium                 36.0%            13   Israel                              38.1%          2.0%
+14       Canada                  35.0%            14   Switzerland                         37.8%          3.0%
+    15   Switzerland             34.8%            15   Canada                              37.3%          2.3%
+    16   Sweden                  33.3%            16   South Korea                         37.1%          6.4%
+    17   Austria                 31.4%            17   Sweden                              36.1%          2.8%
+    18   South Korea             30.7%            18   Austria                             34.1%          2.7%
+    19   Hungary                 29.8%            19   Hungary                             32.2%          2.4%
+20       Denmark                 28.7%            20   Taiwan                              31.8%          3.4%
+    21   Germany                 28.6%            21   United States                       31.3%          3.0%
+22       Poland                  28.5%            22   Denmark                             31.2%          2.5%
+23       Taiwan                  28.4%            23   Germany                             31.1%          2.5%
+24       United States           28.3%            24   Poland                              31.0%          2.5%
+25       Italy                   27.8%            25   Italy                               30.2%          2.4%
+
+
+
+
+4
+                                                                                                Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+AI adoption in the Global North outpaces the Global South
+
+
+At the same time, the gap between the Global North and                This widening divide reflects the systemic challenges facing
+Global South continues to widen, with adoption in the Global          the Global South, where limited access to reliable electricity,
+North growing more than twice as fast as in the Global South.         internet connectivity, and digital skills continues to constrain
+In the first quarter of 2026, 27.5 percent of the population in       adoption. Until these foundational gaps are addressed, the
+the Global North used generative AI, up from 24.7 percent in          benefits of generative AI will remain unevenly distributed,
+the second half of 2025, a gain of 2.8 percentage points. In          risking a deepening of existing global inequalities.
+the Global South, usage reached 15.4 percent, up from 14.1
+percent, a gain of 1.3 percentage points.
+
+
+
+
+                                                        H1 2025                  H2 2025                    Q1 2026
+ Region                                             AI Diffusion              AI Diffusion              AI Diffusion              Change
+ Global North                                              22.9%                     24.7%                      27.5%                 +2.8
+ Global South                                              13.1%                     14.1%                      15.4%                 +1.3
+ World                                                     15.1%                     16.3%                      17.8%                 +1.5
+ Gap between Global North                                   9.8%                    10.6%                      12.1%
+ and Global South
+
+
+
+
+                            Global North                                                 Global South
+
+                     27.5%                                 AI User Share                                 15.4%
+
+          70.1%              % Digital Skills                                             % Digital Skills         48.2%
+
+    90.1%                   % Internet Access                                           % Internet Access                65.7%
+
+  98.1%                    % Electricity Access                                        % Electricity Access                      88.9%
+
+100.0%                          Population                                                   Population                             100.0%
+
+
+
+ Sources: World Bank Total Population 2024 [4]; Share of the population with access to electricity, Our World in Data [5];
+ Individuals using the Internet 2024, ITU [6]; Internet users with basic information and data literacy skills, ITU [7].
+
+
+
+
+                                                                                                                                             5
+                                                                                Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+A New Growth Wave in Asia
+
+
+In addition to rising AI diffusion among the world’s top   similarly strong gains in Mongolia, Iran, Laos, and Turkey
+economies, Asia is experiencing a broader growth wave.     (all 30%+). The pattern spans both advanced and emerging
+Twelve of the fifteen fastest-growing economies since      economies, including Kazakhstan, Kyrgyzstan, Uzbekistan,
+June 2025 are in Asia, and each has at least 25% more AI   Vietnam, and Cambodia.
+users than in June 2025. Growth has been led by South
+Korea (+43%), Thailand (+36%), and Japan (+34%), with
+
+
+
+
+Fastest growing economies since June 2025
+% increase in AI user share, Q1 2026 vs. H1 2025
+
+                          0%               10%               20%                  30%                         40%
+
+South Korea                                                                                                        +43.2%
+
+Thailand                                                                                                           +36.4%
+
+Japan                                                                                                              +34.1%
+
+Mongolia                                                                                                           +32.3%
+
+Iran                                                                                                               +31.4%
+
+Laos                                                                                                               +31.2%
+
+Turkey                                                                                                             +30.3%
+
+Belarus                                                                                                            +27.6%
+
+El Salvador                                                                                                        +25.7%
+
+Kazakhstan                                                                                                         +25.6%
+
+Kyrgyzstan                                                                                                         +25.5%
+
+Uzbekistan                                                                                                         +25.5%
+
+Vietnam                                                                                                            +24.9%
+
+Cambodia                                                                                                           +24.8%
+
+Russia                                                                                                             +24.6%
+
+
+* Italicized economies are outside Asia.
+
+
+
+
+6
+                                                                                  Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Local Language and Multimodal                               Italian, Japanese, Korean, Portuguese, Swahili, Yoruba,
+Capability                                                  and Chinese), have made AI tools increasingly capable
+                                                            of handling multilingual tasks, making them more
+One of the key drivers of the surge appears to be the       accessible for everyday use cases such as messaging,
+stronger support for local languages and multimodal         search, learning, and content creation. Combined with
+interaction that has expanded the relevance of AI across    widespread smartphone adoption and high levels of
+diverse user groups. Improvements in non-English            digital engagement, [9] these factors have enabled
+language performance, as measured by multilingual           faster diffusion across both advanced and emerging
+benchmarks such as MMMLU [8] which assess the               economies in the region.
+same knowledge tasks across 14 languages (Arabic,
+Bengali, German, Spanish, French, Hindi, Indonesian,
+
+
+
+
+How LLMs perform: English compared to 14 languages
+    English (MMLU)       14 languages (MMMLU)
+
+
+95%
+
+
+
+
+90%
+
+
+
+
+85%
+
+
+
+
+80%
+      Aug ’24        Nov ’24        Feb ’25       May ’25        Aug ’25         Nov ’25            Feb ’26            May ’26
+
+
+ Source: MMMLU Leaderboard.
+
+
+
+
+                                                                                                                               7
+                                                                                     Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Strong Demand and Rapid Scaling                               than the global average. This acceleration in diffusion is
+                                                              consistent with improvements in model capabilities and the
+High user demand and a rapid shift from experimentation to    emergence of a more diversified AI ecosystem, alongside
+real-world usage are reinforcing this growth. Research from   the implementation of national policies coming into effect.
+McKinsey [10] shows that AI adoption in Southeast Asia is
+growing faster than the global average, with a significant    Performance on Japanese professional exams has improved
+share of organizations moving beyond pilot use cases to       markedly across successive model generations, increasing
+scaled deployment. At the same time, the Stanford HAI AI      from approximately 50.8% accuracy in earlier models
+Index [11] reports strong positive sentiment toward AI in     to over 90% in recent systems. This represents a step
+markets such as Thailand and Turkey, indicating sustained     change in the ability of AI systems to handle complex,
+openness and demand. These factors enable adoption to         domain-specific tasks in Japanese. [12][13][14][15] These
+translate quickly into widespread, repeated use.              improvements are also reflected in standardized Japanese
+                                                              language benchmarks. On the Massive Multitask Language
+                                                              Understanding (MMLU) benchmark, Japanese accuracy
+Japan Accelerates
+                                                              increased from approximately 50 percent on GPT-3.5
+Japan’s position in the global AI diffusion ranking           Turbo to around 80 percent on GPT-4o, reducing the gap
+improvedfrom 56th in H1 2025 to 48th in Q1 2026.              with English performance from 20 percentage points to 9.
+Over the past quarter, adoption in Japan increased 3.4        On the more challenging MMLU-Pro benchmark, GPT-5
+percentage points, which is more than three times faster      reached 87 percent in Japanese, exceeding its 85 percent
+
+
+
+
+Al user share (3-month average, %)
+    World          Japan
+
+
+                4o image generation
+             GPT-4.5 release                  OpenAI o3 release      GPT-5 release                      GPT-5.2 release
+25%
+
+
+
+
+20%
+
+
+
+
+15%
+
+
+
+
+10%
+      Dec ’24                Mar ’25               Jun ’25            Sep ’25                  Dec ’25                    Mar ’26
+
+ Source: Microsoft AI for Good Lab, OpenAI.
+
+
+
+
+8
+                                                                                   Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+English score. [16][17][18][19] As highlighted in the         The improvements in Japanese-language AI models
+2025 AI Diffusion Report, [20] AI adoption in South Korea     are also showing up in how developers work. In Japan,
+increased about five percentage points in the second          developers uploaded 129% more code changes to GitHub
+half of the year after ChatGPT usage surged after GPT-5,      than a year earlier, compared with 78% growth globally.
+substantially better in Korean, was released.
+
+
+
+
+Better Japanese capability is helping drive AI diffusion in Japan
+  English      Japanese
+
+
+                                 MMLU                                                 MMLU-Pro
+100%
+                                                      89%
+                                                                                                                 87%
+
+
+                                                                         75%                                     85%
+ 75%               70%                                80%
+
+
+                                                                         69%
+
+
+ 50%
+                   50%
+
+
+
+
+ 25%
+            GPT-3.5 Turbo                           GPT-4o              GPT-4o                                 GPT-5
+              Mar 2023                             Aug 2024            Aug 2024                               Aug 2025
+
+
+ Source: Benchmarks results compiled from [16] - [19].
+
+
+
+
+Year-over-year growth in Git pushes
+         0%                                     50%                            100%                                        150%
+
+Japan                                                                                                        129%
+Global                                                             78%
+
+
+ Source: GitHub.
+
+
+
+
+                                                                                                                                9
+                                                                                  Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+New AI Coding models are driving a step-change in GitHub code production
+
+
+In 2025, Anthropic and OpenAI delivered significant         example, GPT-5.3-Codex achieved state-of-the-art results
+advancements in AI-powered coding tools, with both          on SWE-Bench Pro and performed strongly on agentic
+companies releasing models purpose-built for tackling       evaluations, including approximately 77% accuracy on
+complex software projects from start to finish.             Terminal-Bench and around 65% on OSWorld. [22]
+
+Anthropic launched Claude Opus 4.5 on November              At the same time, GitHub Copilot evolved from a code
+24, 2025, describing it as state of the art on real-world   suggestion tool into a broader AI coding platform. It
+software engineering tasks. OpenAI launched three           introduced support for multiple models, enabled coding
+successive Codex releases in rapid succession: GPT-5.1-     agents that can complete tasks and generate pull requests,
+Codex-Max (November 19), GPT-5.2-Codex (December 18),       expanded into the command line, and integrated with
+and GPT-5.3-Codex (February 2026).                          collaboration and project management tools. This
+                                                            positioned Copilot as an active participant across the
+These tools are designed to support increasingly complex    software development lifecycle rather than a tool used only
+software engineering tasks, showing strong performance      within the editor.
+on standardized benchmarks and a growing ability to
+handle real-world development workflows. [2][21] For
+
+
+
+
+Count of Git pushes globally
+                                                                   Count of Git pushes globally
+                                                                                         Q1 2026
+                                                                                  380M Git pushes
+                                                                                       +78% YoY
+
+
+
+300M
+
+
+
+
+                                                                       Q1 2025
+                                                                213M Git pushes
+200M
+                                                                                                                   Agentic
+                                                                                                                   workflow
+                                                                                                                   adoption
+                                                                                                                   accelerates
+100M
+
+
+
+
+     0
+         2020            2021              2022             2023             2024                  2025                   2026
+
+
+ Source: GitHub.
+
+
+
+
+10
+                                                                                     Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Beyond benchmarks, these tools are changing how               Developers and non-developers are “vibe coding,”
+software gets built and who can build it. They can take       expressing their ideas in natural language and then
+on multi step development tasks with little human input,      refining the result through repeated reviews, edits, and
+handling everything from writing and debugging code           code uploads. [23]
+to testing and refining user interfaces. They are also
+increasingly able to coordinate other agents to manage        This shift is already showing up clearly in AI-assisted
+complex development workflows, making it possible for         workflows: merged GitHub pull requests, which measure
+individuals and teams to accomplish far more than before.     how often code or updates are downloaded from a
+                                                              shared repository, have grown more than 28x since
+As a result, there has been an expected, but dramatic,        June 2025 for interactions associated with AI coding
+increase in code uploads (“Git pushes”) in GitHub. Git        agents. While this captures only a fraction of total AI-
+pushes increased 78% year over year globally.                 augmented activity, it provides a useful proxy for the
+                                                              rapid expansion of AI-driven coding workflows.
+In the same time period, the number of new Git
+repositories increased 45% compared with Q1 2025.
+This trend aligns with the emergence of AI-assisted
+development practices in which code contributions can
+scale without a proportional increase in human effort.
+
+
+
+
+New repositories created
+                                                                           New repositories created
+
+                                                                                           Q1 2026
+                                                                              21.3M new repositories
+20M                                                                                      +45% YoY
+
+
+
+
+                                                                         Q1 2025
+15M
+                                                            14.7M new repositories
+                                                                                                                     Agentic
+                                                                                                                     workflow
+                                                                                                                     adoption
+                                                                                                                     accelerates
+10M
+
+
+
+
+ 5M
+                     2021               2022                2023              2024                  2025                    2026
+
+
+ Source: GitHub.
+
+
+
+
+                                                                                                                                 11
+                                                                                      Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+This trend will continue to make software development           It is still too early to know the full labor-market impact
+more dynamic. It is reducing the time to market for new         of AI-assisted coding, but the available data is consistent
+applications and new features, and making it easier to          with this theory. In 2025, total software developer
+iterate based on performance and user feedback. The rate        employment reached approximately 2.2 million, rising
+at which new ideas can be translated into shippable code        8.5% year over year and marking a record high for the
+has never been faster.                                          profession. Early BLS data also shows that software
+                                                                developer employment in March 2026 was about 4%
+That improvement in productivity could, of course, have         higher than in March 2025. [24]
+effects on the labor market.
+
+When developer productivity increases, the cost of building
+software declines. If demand for software is elastic,
+organizations can respond by building more software
+across a wider range of use cases. Economists describe this
+dynamic through productivity and reinstatement effects:
+technology can increase labor demand when it expands
+output and creates new tasks. In software, this mechanism
+is especially plausible because AI coding tools are already
+increasing developer output, while official labor projections
+continue to show strong growth in software-related roles.
+
+
+
+
+Count of GitHub pull requests associated with Al agents
+                                         Count of Git pulls associated with AI agents
+                                                                                             Mar 2026
+                                                                             2.3M agentic pull requests
+                                                                                    28× in 10 months
+ 2M
+
+
+
+
+1.5M
+
+
+
+
+ 1M
+
+                                                                                                        Agentic workflow
+           May 2025
+                                                                                                        adoption accelerates
+           83K agentic pull requests
+0.5M
+
+
+
+
+     0
+         May '25                        Aug '25                          Nov '25                               Feb '26
+
+
+ Source: GitHub.
+
+
+
+
+12
+                                                                                  Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Conclusion
+
+
+AI adoption continued to accelerate in Q1 2026, but the    software development, where new coding models and
+benefits are spreading unevenly. The Global North is       agentic tools are dramatically increasing code production,
+pulling further ahead of the Global South, underscoring    repository creation, and AI-assisted development activity.
+the need to address foundational gaps in electricity,      Together, these trends suggest that AI diffusion is entering
+connectivity, digital skills, and local-language access.   a new phase: broader, faster, and more practical, but also
+At the same time, Asia is emerging as a major growth       one that requires deliberate action to ensure its benefits
+engine, with Japan, South Korea, and several emerging      are shared globally.
+economies showing rapid gains as AI tools become
+more useful in local languages and daily workflows. The
+clearest sign of AI’s near-term economic impact is in
+
+
+
+
+                                                                                                                              13
+                                                                   Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Citation and data availability
+
+
+This report is based on the following technical paper:
+
+Misra, A., Wang, J., McCullers, S., White, K., & Lavista Ferres,
+J. (2025). Measuring AI Diffusion: A Population-Normalized
+Metric for Tracking Global AI Usage.
+arXiv. https://doi.org/10.48550/arXiv.2511.02781
+Also available at: https://aka.ms/AI_Diffusion_Technical_Report
+
+The underlying data used in this report is publicly available:
+
+AI Diffusion dataset (Q1 2026 update):
+https://raw.githubusercontent.com/microsoft/ai-diffusion-
+report/main/data/AI_Diffusion_Q12026_Update.csv
+
+When using this data, please cite the technical paper above
+and include a link to the dataset to ensure reproducibility
+and version transparency.
+
+
+
+
+14
+                                                                                       Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Appendix
+
+
+[1]   A. Misra, J. Wang, S. McCullers, K. White, and J.        [10] McKinsey & Company. (2026). AI in Southeast Asia:
+      L. Ferres, “Measuring AI Diffusion: A Population-             An era of opportunity. https://www.mckinsey.com/
+      Normalized Metric for Tracking Global AI Usage,”              featured-insights/future-of-asia/ai-in-southeast-
+      Nov. 04, 2025, arXiv: arXiv:2511.02781. doi: 10.48550/        asia-an-era-of-opportunity
+      arXiv.2511.02781. https://arxiv.org/abs/2511.02781
+                                                               [11] Stanford Institute for Human-Centered Artificial
+[2]   Anthropic. (2025). Introducing Claude Opus 4.5.               Intelligence (HAI). (2025). AI Index Report 2025.
+      https://www.anthropic.com/news/claude-opus-4-5                Stanford University. https://hai.stanford.edu/ai-
+                                                                    index/2025-ai-index-report
+[3]   OpenAI. “Building more with GPT-5.1-Codex-Max.”
+      https://openai.com/index/gpt-5-1-codex-max/              [12] Umehara, K., Ota, J., Nishii, T., Kishimoto, R., & Ishida,
+                                                                    T. (2025). Benchmarking GPT-5 performance and
+[4]   World Bank, “Population, total,” World Development            repeatability on the Japanese National Examination
+      Indicators, World Bank Open Data, May 30, 2024.               for Radiological Technologists over the past decade
+      https://data.worldbank.org/indicator/SP.POP.TOTL              (2016–2025). European Journal of Radiology
+                                                                    Artificial Intelligence. https://doi.org/10.1016/j.
+[5]   “Share of the population with access to electricity,”         ejrai.2025.100064
+      Our World in Data. Accessed: Sept. 12, 2025.
+      https://ourworldindata.org/grapher/share-of-the-         [13] Miyazaki, Y., Hata, M., Omori, H., Hirashima, A.,
+      population-with-access-to-electricity                         Nakagawa, Y., Eto, M., Takahashi, S., & Ikeda, M.
+                                                                    (2024). Performance of ChatGPT-4o on the Japanese
+[6]   “Facts and Figures 2024 - Internet use.” Accessed:            Medical Licensing Examination: Evaluation of accuracy
+      Sept. 12, 2025. https://www.itu.int/itu-d/reports/            in text-only and image-based questions. JMIR Medical
+      statistics/2024/11/10/ff24-internet-use                       Education, 10, e63129. https://doi.org/10.2196/63129
+
+[7]   International Telecommunication Union (ITU), “SDG-       [14] Liu, M., Okuhara, T., Dai, Z., Huang, W., Gu, L., Okada,
+      related ICT indicators.” Accessed: Oct. 29, 2025.             H., Furukawa, E., & Kiuchi, T. (2025). Evaluating the
+      https://www.itu.int/en/ITU-D/Statistics/Pages/SDGs-           effectiveness of advanced large language models
+      ITU-ICT-indicators.aspx                                       in medical knowledge: A comparative study using
+                                                                    Japanese national medical examination. International
+[8]   LLM Stats. (2026). MMMLU Benchmark Leaderboard.               Journal of Medical Informatics, 193, 105673. https://
+      https://llm-stats.com/benchmarks/mmmlu                        doi.org/10.1016/j.ijmedinf.2024.105673
+
+[9]   Shaw, A. (2025). Digital 2025 April Statshot by We       [15] Takagi, S., Watari, T., Erabi, A., & Sakaguchi, K. (2023).
+      Are Social: Southeast Asians among the world’s                Performance of GPT-3.5 and GPT-4 on the Japanese
+      highest short-form video consumers. Campaign Brief            Medical Licensing Examination: Comparison study.
+      Asia. https://campaignbriefasia.com/2025/04/24/               JMIR Medical Education, 9, e48002. https://doi.
+      digital-2025-april-statshot-by-we-are-social-                 org/10.2196/48002
+      southeast-asians-among-the-worlds-highest-short-
+      form-video-consumers/
+
+
+
+
+                                                                                                                                   15
+                                                               Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+[16] Hugging Face, “Llama-3.3-Swallow-70B-Instruct-v0.4.”
+     https://huggingface.co/tokyotech-llm/Llama-3.3-
+     Swallow-70B-Instruct-v0.4
+
+[17] LLM Stats, “MMLU Leaderboard,” 2026. https://llm-
+     stats.com/benchmarks/mmlu
+
+[18] OpenAI, “Hello GPT-4o,” 2024. https://openai.com/
+     index/hello-gpt-4o/
+
+[19] Swallow Project, “Swallow LLM Leaderboard.” https://
+     swallow-llm.github.io/leaderboard/about.en.html
+
+[20] Microsoft. (2026). Microsoft AI Diffusion Report 2025
+     H2. Microsoft Research. https://www.microsoft.
+     com/en-us/research/wp-content/uploads/2026/01/
+     Microsoft-AI-Diffusion-Report-2025-H2.pdf
+
+[21] OpenAI. (2025). Codex for (almost) everything. https://
+     openai.com/index/codex-for-almost-everything/
+
+[22] OpenAI. “Introducing GPT 5.3 Codex.” February 5,
+     2026. https://openai.com/index/introducing-gpt-5-
+     3-codex/
+
+[23] GitHub Blog. (2025). Octoverse: A new developer joins
+     GitHub every second as AI leads TypeScript to #1.
+     The GitHub Blog. Updated February 28, 2026. https://
+     github.blog/news-insights/octoverse/octoverse-a-
+     new-developer-joins-github-every-second-as-ai-
+     leads-typescript-to-1/
+
+[24] U.S. Bureau of Labor Statistics, Current Population
+     Survey (CPS). https://www.bls.gov/cps/
+
+
+
+
+16
+                                               Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+AI Diffusion Data Source
+
+Economy                    H1 2025   H2 2025    Q1 2026                  Q1 Change
+United Arab Emirates        59.4%     64.0%       70.1%                      6.1%
+Singapore                   58.6%     60.9%       63.4%                      2.5%
+Norway                      45.3%     46.4%       48.6%                      2.2%
+Ireland                     41.7%     44.6%       48.4%                      3.8%
+France                      40.9%     44.0%       47.8%                      3.8%
+Spain                       39.7%     41.8%       44.2%                      2.4%
+New Zealand                 37.6%     40.5%       43.0%                      2.5%
+United Kingdom              36.4%     38.9%       42.2%                      3.3%
+Netherlands                 36.3%     38.9%       42.1%                      3.2%
+Qatar                       35.7%     38.3%       41.8%                      3.5%
+Australia                   34.5%     36.9%       39.5%                      2.6%
+Belgium                     33.5%     36.0%       39.0%                      3.0%
+Israel                      33.9%     36.1%       38.1%                      2.0%
+Switzerland                 32.4%     34.8%       37.8%                      3.0%
+Canada                      33.5%     35.0%       37.3%                      2.3%
+South Korea                 25.9%     30.7%       37.1%                      6.4%
+Sweden                      31.2%     33.3%       36.1%                      2.8%
+Austria                     29.1%     31.4%       34.1%                      2.7%
+Hungary                     27.9%     29.8%       32.2%                      2.4%
+Taiwan                      26.4%     28.4%       31.8%                      3.4%
+United States               26.3%     28.3%       31.3%                      3.0%
+Denmark                     26.6%     28.7%       31.2%                      2.5%
+Germany                     26.5%     28.6%       31.1%                      2.5%
+Poland                      26.4%     28.5%       31.0%                      2.5%
+Italy                       25.8%     27.8%       30.2%                      2.4%
+Czech Republic              26.0%     27.8%       30.1%                      2.3%
+Jordan                      25.4%     27.0%       29.7%                      2.7%
+Bulgaria                    25.4%     27.3%       29.7%                      2.4%
+Finland                     25.6%     27.3%       29.5%                      2.2%
+Saudi Arabia                23.7%     26.2%       29.4%                      3.2%
+Slovenia                    24.6%     26.5%       29.0%                      2.5%
+Costa Rica                  25.1%     26.5%       28.5%                      2.0%
+Lebanon                     24.8%     25.7%       27.3%                      1.6%
+Vietnam                     21.2%     23.5%       26.5%                      3.0%
+Oman                        22.6%     24.2%       26.5%                      2.3%
+Portugal                    22.4%     24.2%       26.4%                      2.2%
+Croatia                     21.8%     23.7%       26.1%                      2.4%
+Slovak Republic             22.1%     23.8%       26.1%                      2.3%
+Dominican Republic          22.0%     22.7%       24.8%                      2.1%
+Uruguay                     20.9%     22.5%       24.6%                      2.1%
+
+
+
+
+                                                                                           17
+                                             Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Economy                  H1 2025   H2 2025     Q1 2026                 Q1 Change
+Colombia                  20.4%     22.0%       24.5%                      2.5%
+Lithuania                 21.0%     22.4%       24.3%                       1.9%
+Serbia                    19.7%     21.5%       24.1%                      2.6%
+Jamaica                   22.2%     22.1%       24.0%                       1.9%
+Panama                    20.3%     21.5%       23.3%                       1.8%
+South Africa              19.3%     21.1%       23.1%                      2.0%
+Chile                     19.6%     20.8%       22.7%                       1.9%
+Japan                     16.7%     19.1%       22.5%                      3.4%
+Bosnia And Herzegovina    18.2%     19.5%       22.1%                      2.6%
+Argentina                 17.8%     19.6%       21.9%                      2.3%
+Malaysia                  18.3%     19.7%       21.8%                       2.1%
+Kuwait                    17.7%     19.1%        21.1%                     2.0%
+Greece                    17.7%     19.1%       20.8%                       1.7%
+Georgia                   17.3%     18.2%       20.5%                      2.3%
+Mexico                    16.7%     17.8%       20.1%                      2.3%
+Philippines               17.1%     18.3%       20.1%                       1.8%
+Ecuador                   17.0%     17.7%       19.5%                       1.8%
+Brazil                    15.6%     17.1%        19.1%                     2.0%
+Albania                   15.8%     16.5%       18.5%                      2.0%
+Moldova                   16.6%     17.0%       18.5%                       1.5%
+El Salvador               14.6%     16.2%       18.3%                       2.1%
+Azerbaijan                14.2%     15.5%        17.7%                     2.2%
+India                     14.2%     15.7%       17.6%                       1.9%
+Romania                   15.3%     16.2%       17.5%                       1.3%
+Turkey                    13.4%     14.6%       17.4%                      2.8%
+Mongolia                  12.6%     14.3%       16.7%                      2.4%
+Guatemala                 13.7%     14.8%       16.4%                       1.6%
+Peru                      13.4%     14.7%       16.4%                       1.7%
+China                     15.4%     16.3%       16.4%                       0.1%
+Kazakhstan                12.7%     13.7%       15.9%                      2.2%
+Namibia                   13.0%     13.8%        15.1%                      1.3%
+Gabon                     12.3%     13.4%       15.0%                       1.6%
+Libya                     12.7%     13.7%       15.0%                       1.3%
+Egypt                     12.5%     13.4%       14.8%                       1.4%
+Botswana                  12.8%     13.7%       14.8%                       1.1%
+Nepal                     12.3%     13.0%       14.2%                       1.2%
+Indonesia                 11.7%     12.7%        14.1%                      1.4%
+Honduras                  12.4%     13.1%       14.0%                      0.9%
+Senegal                   12.4%     12.9%       13.9%                       1.0%
+Tunisia                   12.3%     12.7%       13.5%                      0.8%
+
+
+
+
+18
+                                    Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Economy         H1 2025   H2 2025    Q1 2026                  Q1 Change
+Algeria          11.3%     12.0%       13.2%                      1.2%
+Zambia           11.7%     12.3%       13.1%                      0.8%
+Cote D'Ivoire    10.8%     11.7%       13.1%                      1.4%
+Bolivia          10.9%     11.6%       12.7%                       1.1%
+Iran             9.6%      10.7%       12.6%                      1.9%
+Iraq             10.3%     11.2%       12.5%                      1.3%
+Thailand         9.1%      10.7%       12.4%                      1.7%
+Paraguay         10.1%     11.0%       12.2%                      1.2%
+Nicaragua        10.0%     10.7%       11.8%                       1.1%
+Morocco          10.5%     10.9%       11.7%                      0.8%
+Gambia           10.6%     10.9%       11.4%                      0.5%
+Pakistan         9.7%      10.3%       11.4%                       1.1%
+Angola           8.9%      9.7%        10.9%                      1.2%
+Madagascar       8.9%      9.7%        10.9%                      1.2%
+Malawi           8.9%      9.7%        10.9%                      1.2%
+Mozambique       8.9%      9.7%        10.9%                      1.2%
+French Guiana    8.3%      9.0%        10.3%                      1.3%
+Guyana           8.3%      9.0%        10.3%                      1.3%
+Suriname         8.3%      9.0%        10.3%                      1.3%
+Venezuela        8.3%      9.0%        10.3%                      1.3%
+Benin            8.7%      9.3%        10.1%                      0.8%
+Burkina Faso     8.7%      9.3%        10.1%                      0.8%
+Ghana            8.7%      9.3%        10.1%                      0.8%
+Guinea           8.7%      9.3%        10.1%                      0.8%
+Guinea-Bissau    8.7%      9.3%        10.1%                      0.8%
+Liberia          8.7%      9.3%        10.1%                      0.8%
+Mali             8.7%      9.3%        10.1%                      0.8%
+Mauritania       8.7%      9.3%        10.1%                      0.8%
+Niger            8.7%      9.3%        10.1%                      0.8%
+Nigeria          8.7%      9.3%        10.1%                      0.8%
+Sierra Leone     8.7%      9.3%        10.1%                      0.8%
+Togo             8.7%      9.3%        10.1%                      0.8%
+Myanmar          8.4%      9.1%        10.0%                      0.9%
+Lesotho          8.8%      9.1%         9.8%                      0.7%
+Belarus          7.6%      8.4%         9.6%                      1.2%
+Kyrgyzstan       7.6%      8.2%         9.5%                      1.3%
+Russia           7.6%      8.0%         9.5%                      1.5%
+Ukraine          9.1%      9.0%         9.4%                      0.4%
+Kenya            7.8%      8.1%         8.7%                      0.6%
+Cameroon         7.0%      7.8%         8.7%                      0.9%
+
+
+
+
+                                                                                19
+                                                       Global AI Diffusion Q1 2026 Trends and Insights
+
+
+
+
+Economy                            H1 2025   H2 2025     Q1 2026                 Q1 Change
+Central African Republic            7.0%      7.8%         8.7%                      0.9%
+Chad                                7.0%      7.8%         8.7%                      0.9%
+Congo                               7.0%      7.8%         8.7%                      0.9%
+Democratic Republic Of The Congo    7.0%      7.8%         8.7%                      0.9%
+Zimbabwe                            6.9%      7.6%         8.5%                      0.9%
+Haiti                               7.1%      7.6%         8.5%                      0.9%
+Laos                                6.0%      6.7%         7.8%                       1.1%
+Bangladesh                          6.5%      7.1%         7.8%                      0.7%
+Papua New Guinea                    7.2%      7.3%         7.7%                      0.4%
+Burundi                             6.4%      6.8%         7.6%                      0.8%
+Eritrea                             6.4%      6.8%         7.6%                      0.8%
+Ethiopia                            6.4%      6.8%         7.6%                      0.8%
+Somalia                             6.4%      6.8%         7.6%                      0.8%
+South Sudan                         6.4%      6.8%         7.6%                      0.8%
+Sudan                               6.4%      6.8%         7.6%                      0.8%
+Tanzania                            6.4%      6.8%         7.6%                      0.8%
+Uganda                              6.4%      6.8%         7.6%                      0.8%
+Syria                               6.7%      7.1%         7.5%                      0.4%
+Armenia                             6.2%      6.6%         7.4%                      0.8%
+Sri Lanka                           6.2%      6.6%         7.3%                      0.7%
+Rwanda                              6.0%      6.3%         7.2%                      0.9%
+Uzbekistan                          5.7%      6.3%         7.2%                      0.9%
+Cuba                                5.7%      6.1%         6.7%                      0.6%
+Afghanistan                         5.1%      5.6%         6.1%                      0.5%
+Tajikistan                          5.1%      5.6%         6.1%                      0.5%
+Turkmenistan                        5.1%      5.6%         6.1%                      0.5%
+Cambodia                            4.6%      5.1%         5.7%                      0.6%
+
+
+
+
+20
+©2022 Microsoft Corporation. All rights reserved.
+

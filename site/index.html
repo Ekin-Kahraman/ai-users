@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:,">
+<title>AI Users</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #05050a;
+  --panel: #101018;
+  --fg: #f7f6ff;
+  --muted: #a7a4b7;
+  --dim: #706d82;
+  --line: rgba(255,255,255,0.12);
+  --green: #1ec85a;
+  --lime: #8df54b;
+  --yellow: #e4b12f;
+  --red: #ef3b2c;
+  --hot: #ff5a5f;
+  --violet: #8a5cff;
+}
+
+html, body { min-height: 100%; }
+body {
+  background:
+    radial-gradient(circle at 18% -10%, rgba(30,200,90,0.18), transparent 32%),
+    radial-gradient(circle at 92% 4%, rgba(239,59,44,0.16), transparent 28%),
+    linear-gradient(180deg, #070711 0%, #05050a 52%, #030306 100%);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+#wrapper {
+  max-width: 1480px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 160px;
+}
+
+#header { padding: 24px 28px 16px; }
+
+.intro { margin-bottom: 18px; }
+.eyebrow {
+  color: var(--lime);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.intro h1 {
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.inspired-link {
+  margin-top: -4px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.inspired-link a { color: #d9d4ff; }
+.intro p {
+  max-width: 1120px;
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.intro a { color: #d9d4ff; }
+.intro strong, .intro b { color: var(--fg); font-weight: 700; }
+
+.method-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+.pill {
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.045);
+  font-size: 12px;
+}
+.pill strong { color: var(--fg); }
+
+.intro details { margin: 10px 0; }
+.intro summary {
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+.intro summary:hover { color: var(--fg); }
+.note-box {
+  margin-top: 8px;
+  max-width: 1060px;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 8px;
+  background: rgba(10,10,18,0.76);
+  padding: 13px 15px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.58;
+}
+.note-box code {
+  color: var(--fg);
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+}
+
+.controls-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.stat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.stat-section h3 {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+.stat-big {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+.stat-label {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.mode-toggle {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.mode-toggle button {
+  min-height: 31px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 5px;
+  background: rgba(255,255,255,0.035);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+.mode-toggle button.active {
+  color: var(--fg);
+  border-color: rgba(255,255,255,0.36);
+  background: linear-gradient(135deg, rgba(30,200,90,0.24), rgba(239,59,44,0.16));
+  box-shadow: 0 0 0 1px rgba(141,245,75,0.14) inset;
+}
+.mode-toggle button:hover:not(.active) {
+  background: rgba(255,255,255,0.07);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 31px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.legend canvas { border-radius: 999px; }
+
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 22px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.hbar-chart { display: flex; flex-direction: column; gap: 4px; width: 246px; max-width: 100%; }
+.hbar-row {
+  display: grid;
+  grid-template-columns: minmax(78px, 100px) minmax(44px, 1fr) minmax(42px, auto);
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+}
+.hbar-label {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hbar-track {
+  min-width: 44px;
+  height: 12px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+.hbar-fill { height: 100%; border-radius: 2px; }
+.hbar-val {
+  color: var(--fg);
+  font-size: 11px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.mini-table {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.mini-table b { color: var(--fg); font-weight: 700; text-align: right; }
+
+canvas#canvas {
+  display: block;
+  cursor: default;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: #05050a;
+}
+
+.footer-credit {
+  padding: 18px 28px 0;
+  color: var(--muted);
+  font-size: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-credit a { color: #d9d4ff; }
+
+#tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 20;
+  width: 360px;
+  max-width: calc(100vw - 24px);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s, transform 0.12s;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px;
+  background: rgba(14,14,22,0.96);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.68);
+  padding: 13px 15px;
+}
+#tooltip.visible { opacity: 1; transform: translateY(0); }
+#tooltip .tt-title { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+#tooltip .tt-highlight { font-size: 12px; margin-bottom: 8px; }
+#tooltip .tt-stats {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 3px 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+#tooltip .tt-stats .label { color: var(--muted); }
+#tooltip .tt-stats .value { color: var(--fg); text-align: right; }
+#tooltip .tt-note {
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+@media (max-width: 720px) {
+  #header { padding: 18px 14px 12px; }
+  .intro h1 { font-size: 27px; }
+  .intro p { font-size: 14px; }
+  .stats-row { gap: 16px 18px; }
+  .stat-big { font-size: 28px; }
+}
+
+@media (max-width: 430px) {
+  .stat-section { width: 100%; }
+  .hbar-chart { width: 100%; }
+  .hbar-row { grid-template-columns: minmax(104px, 118px) minmax(38px, 1fr) minmax(48px, auto); }
+}
+</style>
+</head>
+<body>
+
+<div id="wrapper">
+  <div id="header">
+    <div class="intro">
+      <div class="eyebrow">Cross-country usage model</div>
+      <h1>AI Users</h1>
+      <div class="inspired-link">Inspired by <a href="https://github.com/karpathy/jobs">Andrej Karpathy's jobs</a>.</div>
+      <p>This prototype estimates how many working-age people use generative AI in each country, tracks the comparable public series from <b>H1 2025</b> to <b>Q1 2026</b>, and compares adoption with an infrastructure model based on internet access, electricity access, and GDP per head.</p>
+      <p>The main usage table comes from <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2026/05/Microsoft-AI-Diffusion-Report-2026-Q1.pdf">Microsoft's Global AI Diffusion Q1 2026 report</a>. Population comes from <a href="https://ourworldindata.org/grapher/dependency-age-groups-to-2100">UN WPP via Our World in Data</a>. Internet, electricity, GDP, region, and income metadata come from the <a href="https://data.worldbank.org/">World Bank</a>.</p>
+      <div class="method-row">
+        <div class="pill"><strong>Area</strong> = Q1 2026 estimated AI users</div>
+        <div class="pill"><strong>Colour</strong> = selected layer</div>
+        <div class="pill"><strong>Access headroom</strong> = reachable non-users, not a forecast</div>
+      </div>
+      <details>
+        <summary>View the model definition and caveats</summary>
+        <div class="note-box">
+          <p><code>estimated_ai_users = ai_share_pct / 100 * working_age_population</code></p>
+          <p><code>access_ceiling_pct = min(internet_user_pct, electricity_access_pct)</code></p>
+          <p><code>access_headroom_users = max(0, access_ceiling_pct - ai_share_q1_2026_pct) / 100 * working_age_population_2026</code></p>
+          <p><code>diffusion_gap_pp = actual_q1_2026_ai_share - infrastructure_modelled_ai_share</code></p>
+          <p>Microsoft's AI diffusion values are modelled telemetry estimates, not surveys. The comparable public country series in this build starts at H1 2025, so the page shows H1 2025, H2 2025, and Q1 2026 rather than inventing a 2024 country baseline. World Bank infrastructure indicators use the latest available value up to 2024, so infrastructure can lag the AI period. Access headroom is a reachability model, not a prediction that those people will use AI.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="controls-row">
+      <div class="stat-section">
+        <h3>Layer</h3>
+        <div class="mode-toggle" id="colorToggle">
+          <button data-mode="users" class="active">Users</button>
+          <button data-mode="share">2026 Share</button>
+          <button data-mode="momentum">Momentum</button>
+          <button data-mode="readiness">Readiness</button>
+          <button data-mode="gap">Model Gap</button>
+          <button data-mode="headroom">Headroom</button>
+          <button data-mode="intensity">Internet Intensity</button>
+          <button data-mode="region">Region</button>
+        </div>
+      </div>
+      <div class="legend" id="legend">
+        <span id="legendLow">Low</span>
+        <canvas id="gradientLegend" width="118" height="9"></canvas>
+        <span id="legendHigh">High</span>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-section">
+        <h3>Q1 2026 users</h3>
+        <div class="stat-big" id="statTotalUsers">loading</div>
+        <div class="stat-label" id="statSourceYears"></div>
+      </div>
+      <div class="stat-section" id="block2"></div>
+      <div class="stat-section" id="block3"></div>
+      <div class="stat-section" id="block4"></div>
+      <div class="stat-section" id="block5"></div>
+      <div class="stat-section" id="block6"></div>
+      <div class="stat-section" id="block7"></div>
+      <div class="stat-section" id="block8"></div>
+    </div>
+  </div>
+
+  <canvas id="canvas"></canvas>
+  <div class="footer-credit">Inspired by <a href="https://github.com/karpathy/jobs">Andrej Karpathy's jobs</a>.</div>
+</div>
+
+<div id="tooltip">
+  <div class="tt-title"></div>
+  <div class="tt-highlight"></div>
+  <div class="tt-stats"></div>
+  <div class="tt-note"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+let payload = null;
+let countries = [];
+let rects = [];
+let hovered = null;
+let colorMode = "users";
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let dpr = window.devicePixelRatio || 1;
+const MARGIN = 12;
+const GAP = 1.5;
+
+const REGION_COLORS = {
+  "East Asia & Pacific": "#00d8ff",
+  "Europe & Central Asia": "#8a5cff",
+  "Latin America & Caribbean": "#ffb000",
+  "Middle East, North Africa, Afghanistan & Pakistan": "#ff3d81",
+  "Middle East & North Africa": "#ff3d81",
+  "North America": "#30f2a2",
+  "South Asia": "#ff6f3d",
+  "Sub-Saharan Africa": "#b8ff4d",
+  "Unclassified": "#8f8aa2"
+};
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
+
+function clamp01(t) { return Math.max(0, Math.min(1, t)); }
+
+function hexToRgb(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
+function mix(a, b, t) {
+  const ca = hexToRgb(a);
+  const cb = hexToRgb(b);
+  const out = ca.map((v, i) => Math.round(v + (cb[i] - v) * t));
+  return `rgb(${out[0]},${out[1]},${out[2]})`;
+}
+
+function valueScale(t, alpha = 1) {
+  t = clamp01(t);
+  const color = t < 0.5
+    ? mix("#c7352b", "#d8aa38", t / 0.5)
+    : mix("#d8aa38", "#1ec85a", (t - 0.5) / 0.5);
+  return colorWithAlpha(color, alpha);
+}
+
+function turbo(t) {
+  return valueScale(t, 1);
+}
+
+function diverge(t) {
+  t = clamp01(t);
+  if (t < 0.50) return mix("#ef3b2c", "#202636", t / 0.50);
+  return mix("#202636", "#1ec85a", (t - 0.50) / 0.50);
+}
+
+function colorWithAlpha(color, alpha) {
+  if (color.startsWith("#")) {
+    const [r, g, b] = hexToRgb(color);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  const parts = color.match(/\d+/g);
+  if (!parts) return color;
+  return `rgba(${parts[0]},${parts[1]},${parts[2]},${alpha})`;
+}
+
+function valuesFor(key) {
+  return countries.map(d => d[key]).filter(v => v != null && Number.isFinite(v) && v > 0);
+}
+
+function extent(key) {
+  const vals = valuesFor(key);
+  return [Math.min(...vals), Math.max(...vals)];
+}
+
+function maxAbs(key) {
+  const vals = countries.map(d => d[key]).filter(v => v != null && Number.isFinite(v));
+  return Math.max(...vals.map(v => Math.abs(v)), 1);
+}
+
+function logNorm(value, min, max) {
+  if (!value || value <= 0 || min <= 0 || max <= min) return 0;
+  return clamp01((Math.log(value) - Math.log(min)) / (Math.log(max) - Math.log(min)));
+}
+
+function formatCount(n) {
+  if (n == null) return "n/a";
+  if (Math.abs(n) >= 1e9) return (n / 1e9).toFixed(2) + "B";
+  if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(Math.abs(n) >= 100e6 ? 0 : 1) + "M";
+  if (Math.abs(n) >= 1e3) return Math.round(n / 1e3) + "K";
+  return Math.round(n).toLocaleString();
+}
+
+function formatExact(n) {
+  return n == null ? "n/a" : Math.round(n).toLocaleString();
+}
+
+function formatPct(n, digits = 1) {
+  return n == null ? "n/a" : n.toFixed(digits) + "%";
+}
+
+function signedPct(n, digits = 1) {
+  if (n == null) return "n/a";
+  return (n >= 0 ? "+" : "") + n.toFixed(digits) + "%";
+}
+
+function signedCount(n) {
+  if (n == null) return "n/a";
+  return (n >= 0 ? "+" : "") + formatCount(n);
+}
+
+function tileColor(d, alpha) {
+  if (colorMode === "region") {
+    return colorWithAlpha(REGION_COLORS[d.region] || REGION_COLORS.Unclassified, alpha);
+  }
+  if (colorMode === "gap" && d.diffusion_gap_pp == null) {
+    return `rgba(128,128,128,${alpha})`;
+  }
+  if (colorMode === "share") {
+    return colorWithAlpha(turbo(d.ai_share_q1_2026_pct / 70), alpha);
+  }
+  if (colorMode === "users") {
+    const [min, max] = extent("estimated_ai_users_q1_2026");
+    return colorWithAlpha(turbo(logNorm(d.estimated_ai_users_q1_2026, min, max)), alpha);
+  }
+  if (colorMode === "momentum") {
+    return colorWithAlpha(turbo(d.h2_to_q1_change_pp / 6.5), alpha);
+  }
+  if (colorMode === "readiness") {
+    return colorWithAlpha(turbo((d.readiness_score || 0) / 100), alpha);
+  }
+  if (colorMode === "gap") {
+    const m = maxAbs("diffusion_gap_pp");
+    return colorWithAlpha(diverge((d.diffusion_gap_pp + m) / (m * 2)), alpha);
+  }
+  if (colorMode === "headroom") {
+    const [min, max] = extent("access_headroom_users");
+    return colorWithAlpha(turbo(logNorm(d.access_headroom_users || 1, min, max)), alpha);
+  }
+  if (colorMode === "intensity") {
+    return colorWithAlpha(turbo((d.internet_normalised_ai_intensity_pct || 0) / 75), alpha);
+  }
+  return `rgba(128,128,128,${alpha})`;
+}
+
+function tileSubInfo(d) {
+  if (colorMode === "share") return `${formatPct(d.ai_share_q1_2026_pct)} - ${formatCount(d.estimated_ai_users_q1_2026)}`;
+  if (colorMode === "users") return `${formatCount(d.estimated_ai_users_q1_2026)} users - rank ${d.rank_by_estimated_users}`;
+  if (colorMode === "momentum") return `+${d.h2_to_q1_change_pp.toFixed(1)} pp - ${signedCount(d.estimated_user_change_h2_to_q1)}`;
+  if (colorMode === "readiness") return `${formatPct(d.readiness_score)} readiness`;
+  if (colorMode === "gap" && d.diffusion_gap_pp == null) return "not modelled";
+  if (colorMode === "gap") return `${d.diffusion_gap_pp >= 0 ? "+" : ""}${d.diffusion_gap_pp.toFixed(1)} pp vs model`;
+  if (colorMode === "headroom") return `${formatCount(d.access_headroom_users)} reachable non-users`;
+  if (colorMode === "intensity") return `${formatPct(d.internet_normalised_ai_intensity_pct)} of internet users`;
+  return d.region;
+}
+
+function squarify(items, x, y, w, h) {
+  if (!items.length) return [];
+  if (items.length === 1) return [{ ...items[0], rx: x, ry: y, rw: w, rh: h }];
+  const total = items.reduce((sum, item) => sum + item.value, 0);
+  if (total <= 0) return [];
+  const out = [];
+  let remaining = [...items];
+  let cx = x, cy = y, cw = w, ch = h;
+  while (remaining.length) {
+    const remTotal = remaining.reduce((sum, item) => sum + item.value, 0);
+    const vertical = cw >= ch;
+    const side = vertical ? ch : cw;
+    let row = [remaining[0]];
+    let rowSum = remaining[0].value;
+    for (let i = 1; i < remaining.length; i++) {
+      const candidate = [...row, remaining[i]];
+      const candidateSum = rowSum + remaining[i].value;
+      const oldWorst = worstAspect(row, rowSum, side, remTotal, vertical ? cw : ch);
+      const newWorst = worstAspect(candidate, candidateSum, side, remTotal, vertical ? cw : ch);
+      if (newWorst <= oldWorst) { row = candidate; rowSum = candidateSum; }
+      else break;
+    }
+    const thickness = (vertical ? cw : ch) * rowSum / remTotal;
+    let offset = 0;
+    for (const item of row) {
+      const length = side * item.value / rowSum;
+      if (vertical) out.push({ ...item, rx: cx, ry: cy + offset, rw: thickness, rh: length });
+      else out.push({ ...item, rx: cx + offset, ry: cy, rw: length, rh: thickness });
+      offset += length;
+    }
+    if (vertical) { cx += thickness; cw -= thickness; }
+    else { cy += thickness; ch -= thickness; }
+    remaining = remaining.slice(row.length);
+  }
+  return out;
+}
+
+function worstAspect(row, rowSum, side, totalArea, availableExtent) {
+  const rowExtent = availableExtent * rowSum / totalArea;
+  if (rowExtent <= 0) return Infinity;
+  let worst = 0;
+  for (const item of row) {
+    const itemLength = side * item.value / rowSum;
+    if (itemLength <= 0) continue;
+    worst = Math.max(worst, rowExtent / itemLength, itemLength / rowExtent);
+  }
+  return worst;
+}
+
+function layout() {
+  const wrapper = document.getElementById("wrapper");
+  const w = wrapper.clientWidth;
+  const h = w < 720 ? Math.max(720, Math.round(w * 1.65)) : Math.round(w * 0.68);
+  canvas.width = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
+  const tx = MARGIN, ty = MARGIN, tw = w - MARGIN * 2, th = h - MARGIN * 2;
+
+  const byRegion = {};
+  for (const d of countries) {
+    if (!byRegion[d.region]) byRegion[d.region] = [];
+    byRegion[d.region].push(d);
+  }
+  const regions = Object.entries(byRegion).map(([region, items]) => ({
+    region,
+    value: items.reduce((sum, item) => sum + item.estimated_ai_users_q1_2026, 0),
+    items: items.sort((a, b) => b.estimated_ai_users_q1_2026 - a.estimated_ai_users_q1_2026)
+  })).sort((a, b) => b.value - a.value);
+
+  const regionRects = squarify(regions, tx, ty, tw, th);
+  rects = [];
+  for (const rr of regionRects) {
+    const inner = squarify(
+      rr.items.map(d => ({ ...d, value: Math.max(1, d.estimated_ai_users_q1_2026) })),
+      rr.rx + GAP,
+      rr.ry + GAP,
+      Math.max(0, rr.rw - GAP * 2),
+      Math.max(0, rr.rh - GAP * 2)
+    );
+    rects.push(...inner.map(r => ({ ...r, parentRegion: rr.region })));
+  }
+}
+
+function fitText(text, maxWidth) {
+  if (ctx.measureText(text).width <= maxWidth) return text;
+  let out = text;
+  while (out.length > 4 && ctx.measureText(out + "...").width > maxWidth) out = out.slice(0, -1);
+  return out.length > 4 ? out + "..." : "";
+}
+
+function draw() {
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+  ctx.fillStyle = "#05050a";
+  ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+
+  for (const r of rects) {
+    const isHovered = r === hovered;
+    const g = GAP / 2;
+    const rx = r.rx + g, ry = r.ry + g, rw = r.rw - g * 2, rh = r.rh - g * 2;
+    if (rw <= 0 || rh <= 0) continue;
+    const color = tileColor(r, isHovered ? 0.94 : 0.72);
+    ctx.fillStyle = color;
+    ctx.fillRect(rx, ry, rw, rh);
+    ctx.fillStyle = "rgba(255,255,255,0.055)";
+    ctx.fillRect(rx, ry, rw, Math.min(rh, 3));
+    if (isHovered) {
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(rx, ry, rw, rh);
+    }
+    if (rw > 48 && rh > 18) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(rx + 5, ry + 3, Math.max(0, rw - 10), Math.max(0, rh - 6));
+      ctx.clip();
+      const fontSize = Math.min(13, Math.max(9, Math.min(rw / 11, rh / 3)));
+      ctx.font = `800 ${fontSize}px -apple-system, system-ui, sans-serif`;
+      ctx.fillStyle = "rgba(255,255,255,0.94)";
+      ctx.textBaseline = "top";
+      const title = fitText(r.country, rw - 12);
+      if (title) ctx.fillText(title, rx + 6, ry + 5);
+      if (rh > 36 && rw > 76) {
+        ctx.font = `600 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
+        ctx.fillStyle = "rgba(255,255,255,0.68)";
+        const sub = fitText(tileSubInfo(r), rw - 12);
+        if (sub) ctx.fillText(sub, rx + 6, ry + 7 + fontSize + 2);
+      }
+      ctx.restore();
+    }
+  }
+}
+
+function hitTest(mx, my) {
+  const bounds = canvas.getBoundingClientRect();
+  const x = mx - bounds.left, y = my - bounds.top;
+  for (let i = rects.length - 1; i >= 0; i--) {
+    const r = rects[i];
+    if (x >= r.rx && x < r.rx + r.rw && y >= r.ry && y < r.ry + r.rh) return r;
+  }
+  return null;
+}
+
+function topRows(key, count = 5, reverse = true) {
+  return [...countries]
+    .filter(row => row[key] != null && Number.isFinite(row[key]))
+    .sort((a, b) => reverse ? b[key] - a[key] : a[key] - b[key])
+    .slice(0, count);
+}
+
+function hbars(rows, labelKey, valueKey, formatter, colorFn) {
+  const max = Math.max(...rows.map(row => Math.abs(row[valueKey] || 0)), 1);
+  return rows.map(row => `<div class="hbar-row">
+    <span class="hbar-label">${escapeHtml(row[labelKey])}</span>
+    <div class="hbar-track"><div class="hbar-fill" style="width:${Math.abs(row[valueKey] || 0) / max * 100}%;background:${colorFn(row)}"></div></div>
+    <span class="hbar-val">${formatter(row[valueKey], row)}</span>
+  </div>`).join("");
+}
+
+function regionBars() {
+  const totals = {};
+  for (const d of countries) totals[d.region] = (totals[d.region] || 0) + d.estimated_ai_users_q1_2026;
+  const rows = Object.entries(totals).map(([region, users]) => ({ region, users }))
+    .sort((a, b) => b.users - a.users).slice(0, 5);
+  const vals = rows.map(row => row.users).filter(v => v > 0);
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  return hbars(rows, "region", "users", formatCount, row => turbo(logNorm(row.users, min, max)));
+}
+
+function updateStats() {
+  const s = payload.summary;
+  const topUser = countries[0];
+  const topShare = topRows("ai_share_q1_2026_pct", 1)[0];
+  const topMomentum = topRows("h2_to_q1_change_pp", 1)[0];
+  const topHeadroom = topRows("access_headroom_users", 1)[0];
+  const topReadiness = topRows("readiness_score", 1)[0];
+  const topGap = topRows("diffusion_gap_pp", 1)[0];
+  const lowGap = topRows("diffusion_gap_pp", 1, false)[0];
+
+  document.getElementById("statTotalUsers").textContent = formatCount(s.total_estimated_ai_users_q1_2026);
+  document.getElementById("statSourceYears").textContent = `${s.main_ai_source_period}; ${s.country_count} countries`;
+
+  document.getElementById("block2").innerHTML = `<h3>Weighted share</h3>
+    <div class="stat-big" style="color:${turbo(s.weighted_ai_user_share_q1_2026_pct / 70)}">${formatPct(s.weighted_ai_user_share_q1_2026_pct)}</div>
+    <div class="stat-label">working-age population</div>`;
+
+  document.getElementById("block3").innerHTML = `<h3>New users</h3>
+    <div class="stat-big" style="color:var(--lime)">${signedCount(s.estimated_user_change_h2_to_q1)}</div>
+    <div class="stat-label">H2 2025 to Q1 2026, ${signedPct(s.estimated_user_growth_h2_to_q1_pct)} growth</div>`;
+
+  if (colorMode === "share") {
+    document.getElementById("block4").innerHTML = `<h3>Highest share</h3><div class="stat-big" style="color:${turbo(topShare.ai_share_q1_2026_pct / 70)}">${formatPct(topShare.ai_share_q1_2026_pct, 0)}</div><div class="stat-label">${escapeHtml(topShare.country)}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Largest base</h3><div class="stat-big">${formatCount(topUser.estimated_ai_users_q1_2026)}</div><div class="stat-label">${escapeHtml(topUser.country)}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Top share</h3><div class="hbar-chart">${hbars(topRows("ai_share_q1_2026_pct"), "country", "ai_share_q1_2026_pct", v => formatPct(v, 0), row => turbo(row.ai_share_q1_2026_pct / 70))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Regions</h3><div class="hbar-chart">${regionBars()}</div>`;
+    document.getElementById("block8").innerHTML = "";
+  } else if (colorMode === "users") {
+    document.getElementById("block4").innerHTML = `<h3>Largest base</h3><div class="stat-big">${formatCount(topUser.estimated_ai_users_q1_2026)}</div><div class="stat-label">${escapeHtml(topUser.country)}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Top country share</h3><div class="stat-big">${(topUser.estimated_ai_users_q1_2026 / s.total_estimated_ai_users_q1_2026 * 100).toFixed(0)}%</div><div class="stat-label">${escapeHtml(topUser.country)} of all users shown</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Top users</h3><div class="hbar-chart">${hbars(topRows("estimated_ai_users_q1_2026"), "country", "estimated_ai_users_q1_2026", formatCount, row => tileColor(row, 1))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Regions</h3><div class="hbar-chart">${regionBars()}</div>`;
+    document.getElementById("block8").innerHTML = "";
+  } else if (colorMode === "momentum") {
+    document.getElementById("block4").innerHTML = `<h3>Fastest mover</h3><div class="stat-big" style="color:var(--hot)">+${topMomentum.h2_to_q1_change_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(topMomentum.country)}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Total growth</h3><div class="stat-big">${signedPct(s.estimated_user_growth_h2_to_q1_pct)}</div><div class="stat-label">estimated users</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Momentum leaders</h3><div class="hbar-chart">${hbars(topRows("h2_to_q1_change_pp"), "country", "h2_to_q1_change_pp", v => "+" + v.toFixed(1), row => turbo(row.h2_to_q1_change_pp / 6.5))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>New users</h3><div class="hbar-chart">${hbars(topRows("estimated_user_change_h2_to_q1"), "country", "estimated_user_change_h2_to_q1", signedCount, row => tileColor(row, 1))}</div>`;
+    document.getElementById("block8").innerHTML = `<h3>Since H1 2025</h3><div class="stat-big">${signedCount(s.estimated_user_change_h1_to_q1)}</div><div class="stat-label">${signedPct(s.estimated_user_growth_h1_to_q1_pct)} estimated user growth</div>`;
+  } else if (colorMode === "readiness") {
+    document.getElementById("block4").innerHTML = `<h3>Top readiness</h3><div class="stat-big" style="color:var(--green)">${formatPct(topReadiness.readiness_score, 0)}</div><div class="stat-label">${escapeHtml(topReadiness.country)}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Source model</h3><div class="mini-table"><span>Internet</span><b>55%</b><span>Electricity</span><b>25%</b><span>GDP proxy</span><b>20%</b></div>`;
+    document.getElementById("block6").innerHTML = `<h3>Readiness leaders</h3><div class="hbar-chart">${hbars(topRows("readiness_score"), "country", "readiness_score", v => formatPct(v, 0), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Lagging readiness</h3><div class="hbar-chart">${hbars(topRows("readiness_score", 5, false), "country", "readiness_score", v => formatPct(v, 0), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block8").innerHTML = "";
+  } else if (colorMode === "gap") {
+    document.getElementById("block4").innerHTML = `<h3>Most above model</h3><div class="stat-big" style="color:var(--lime)">+${topGap.diffusion_gap_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(topGap.country)}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Most below model</h3><div class="stat-big" style="color:var(--hot)">${lowGap.diffusion_gap_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(lowGap.country)}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Above model</h3><div class="hbar-chart">${hbars(topRows("diffusion_gap_pp"), "country", "diffusion_gap_pp", v => (v >= 0 ? "+" : "") + v.toFixed(1), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Below model</h3><div class="hbar-chart">${hbars(topRows("diffusion_gap_pp", 5, false), "country", "diffusion_gap_pp", v => v.toFixed(1), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block8").innerHTML = `<h3>Model fit</h3><div class="stat-big">${s.modelled_country_count}</div><div class="stat-label">countries scored; directional, not causal</div>`;
+  } else if (colorMode === "headroom") {
+    document.getElementById("block4").innerHTML = `<h3>Access headroom</h3><div class="stat-big" style="color:var(--green)">${formatCount(s.total_access_headroom_users)}</div><div class="stat-label">reachable non-users model</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Largest headroom</h3><div class="stat-big">${formatCount(topHeadroom.access_headroom_users)}</div><div class="stat-label">${escapeHtml(topHeadroom.country)}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Headroom leaders</h3><div class="hbar-chart">${hbars(topRows("access_headroom_users"), "country", "access_headroom_users", formatCount, row => tileColor(row, 1))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Offline adults</h3><div class="stat-big">${formatCount(s.total_offline_working_age_population)}</div><div class="stat-label">working-age people without internet access</div>`;
+    document.getElementById("block8").innerHTML = "";
+  } else if (colorMode === "intensity") {
+    const topIntensity = topRows("internet_normalised_ai_intensity_pct", 1)[0];
+    document.getElementById("block4").innerHTML = `<h3>Top intensity</h3><div class="stat-big" style="color:var(--violet)">${formatPct(topIntensity.internet_normalised_ai_intensity_pct, 0)}</div><div class="stat-label">${escapeHtml(topIntensity.country)} of internet users</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Interpretation</h3><div class="stat-label">AI share divided by internet access. Approximate, because age distributions differ.</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Intensity leaders</h3><div class="hbar-chart">${hbars(topRows("internet_normalised_ai_intensity_pct"), "country", "internet_normalised_ai_intensity_pct", v => formatPct(v, 0), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Internet access</h3><div class="hbar-chart">${hbars(topRows("internet_user_pct"), "country", "internet_user_pct", v => formatPct(v, 0), row => turbo(row.internet_user_pct / 100))}</div>`;
+    document.getElementById("block8").innerHTML = "";
+  } else {
+    document.getElementById("block4").innerHTML = `<h3>Regions</h3><div class="hbar-chart">${regionBars()}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Largest base</h3><div class="stat-big">${formatCount(topUser.estimated_ai_users_q1_2026)}</div><div class="stat-label">${escapeHtml(topUser.country)}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Fastest mover</h3><div class="stat-big">+${topMomentum.h2_to_q1_change_pp.toFixed(1)}</div><div class="stat-label">${escapeHtml(topMomentum.country)}</div>`;
+    document.getElementById("block7").innerHTML = "";
+    document.getElementById("block8").innerHTML = "";
+  }
+}
+
+function drawGradientLegend() {
+  const legend = document.getElementById("legend");
+  const c = document.getElementById("gradientLegend");
+  const gctx = c.getContext("2d");
+  if (colorMode === "region") {
+    legend.style.display = "none";
+    return;
+  }
+  legend.style.display = "flex";
+  for (let x = 0; x < c.width; x++) {
+    gctx.fillStyle = colorMode === "gap" ? diverge(x / (c.width - 1)) : turbo(x / (c.width - 1));
+    gctx.fillRect(x, 0, 1, c.height);
+  }
+  const labels = {
+    share: ["Low share", "High share"],
+    users: ["Fewer users", "More users"],
+    momentum: ["Slower", "Faster"],
+    readiness: ["Lower readiness", "Higher readiness"],
+    gap: ["Below model", "Above model"],
+    headroom: ["Less headroom", "More headroom"],
+    intensity: ["Lower intensity", "Higher intensity"]
+  }[colorMode];
+  document.getElementById("legendLow").textContent = labels[0];
+  document.getElementById("legendHigh").textContent = labels[1];
+}
+
+function showTooltip(d, mx, my) {
+  const tt = document.getElementById("tooltip");
+  const color = tileColor(d, 1);
+  tt.querySelector(".tt-title").textContent = d.country;
+  tt.querySelector(".tt-highlight").innerHTML = `<span style="color:${color};font-weight:800;">${formatPct(d.ai_share_q1_2026_pct)} AI share in Q1 2026</span>
+    <div style="margin-top:5px;height:5px;background:rgba(255,255,255,0.09);border-radius:999px;">
+      <div style="height:100%;width:${Math.min(100, d.ai_share_q1_2026_pct / 70 * 100)}%;background:${color};border-radius:999px;"></div>
+    </div>`;
+  tt.querySelector(".tt-stats").innerHTML = `
+    <span class="label">Q1 2026 users</span><span class="value">${formatExact(d.estimated_ai_users_q1_2026)}</span>
+    <span class="label">H2 to Q1 change</span><span class="value">+${d.h2_to_q1_change_pp.toFixed(1)} pp (${signedCount(d.estimated_user_change_h2_to_q1)})</span>
+    <span class="label">H1 2025 share</span><span class="value">${formatPct(d.ai_share_h1_2025_pct)}</span>
+    <span class="label">Internet access</span><span class="value">${formatPct(d.internet_user_pct)} ${d.internet_year ? '(' + d.internet_year + ')' : ''}</span>
+    <span class="label">Electricity access</span><span class="value">${formatPct(d.electricity_access_pct)} ${d.electricity_year ? '(' + d.electricity_year + ')' : ''}</span>
+    <span class="label">Readiness score</span><span class="value">${formatPct(d.readiness_score)}</span>
+    <span class="label">Modelled share</span><span class="value">${formatPct(d.modelled_ai_share_q1_2026_pct)}</span>
+    <span class="label">Diffusion gap</span><span class="value">${d.diffusion_gap_pp == null ? "n/a" : (d.diffusion_gap_pp >= 0 ? "+" : "") + d.diffusion_gap_pp.toFixed(1) + " pp"}</span>
+    <span class="label">Access headroom</span><span class="value">${formatCount(d.access_headroom_users)}</span>
+    <span class="label">Region</span><span class="value">${escapeHtml(d.region)}</span>`;
+  tt.querySelector(".tt-note").textContent = "Area is Q1 2026 estimated AI users. Model gap compares actual share with an infrastructure-only estimate.";
+  let tx = mx + 16, ty = my - 16;
+  if (tx + 370 > window.innerWidth) tx = mx - 382;
+  if (ty < 10) ty = my + 16;
+  if (ty + 260 > window.innerHeight) ty = window.innerHeight - 272;
+  tt.style.left = tx + "px";
+  tt.style.top = ty + "px";
+  tt.classList.add("visible");
+}
+
+function hideTooltip() { document.getElementById("tooltip").classList.remove("visible"); }
+
+canvas.addEventListener("mousemove", event => {
+  const hit = hitTest(event.clientX, event.clientY);
+  if (hit !== hovered) { hovered = hit; draw(); }
+  if (hovered) { showTooltip(hovered, event.clientX, event.clientY); canvas.style.cursor = "pointer"; }
+  else { hideTooltip(); canvas.style.cursor = "default"; }
+});
+
+canvas.addEventListener("mouseleave", () => { hovered = null; hideTooltip(); draw(); });
+
+canvas.addEventListener("click", event => {
+  const hit = hitTest(event.clientX, event.clientY);
+  if (hit && hit.source_url) window.open(hit.source_url, "_blank", "noopener");
+});
+
+document.getElementById("colorToggle").addEventListener("click", event => {
+  const button = event.target.closest("button");
+  if (!button || !button.dataset.mode) return;
+  colorMode = button.dataset.mode;
+  document.querySelectorAll("#colorToggle button").forEach(btn => btn.classList.remove("active"));
+  button.classList.add("active");
+  updateStats();
+  drawGradientLegend();
+  draw();
+  requestAnimationFrame(resize);
+});
+
+function resize() {
+  dpr = window.devicePixelRatio || 1;
+  layout();
+  draw();
+}
+
+function initialise(data) {
+  payload = data;
+  countries = data.countries;
+  updateStats();
+  drawGradientLegend();
+  resize();
+}
+
+if (window.AI_COUNTRY_USAGE_DATA) {
+  initialise(window.AI_COUNTRY_USAGE_DATA);
+} else {
+  fetch("data.json")
+    .then(response => response.json())
+    .then(initialise)
+    .catch(error => {
+      document.getElementById("statTotalUsers").textContent = "error";
+      document.getElementById("block2").innerHTML = `<h3>Load error</h3><div class="stat-label">${escapeHtml(error.message)}</div>`;
+    });
+}
+
+window.addEventListener("resize", resize);
+</script>
+</body>
+</html>
