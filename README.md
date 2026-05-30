@@ -2,7 +2,7 @@
 
 A research tool for visually exploring estimated generative AI usage by country. This is not a report, a paper, or an official statistical publication - it is a development tool for exploring public AI diffusion data visually.
 
-**Live demo: run locally with `cd site && python3 -m http.server 8000`**
+**Live demo: [ekin-kahraman.github.io/ai-users](https://ekin-kahraman.github.io/ai-users/)**
 
 ## What's here
 
