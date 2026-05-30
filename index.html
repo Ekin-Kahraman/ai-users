@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI Users is an interactive country treemap estimating generative AI usage from Microsoft Q1 2026 AI diffusion data, UN population data, and World Bank infrastructure indicators.">
+<link rel="canonical" href="https://ekin-kahraman.github.io/ai-users/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Users">
+<meta property="og:description" content="Estimated generative AI usage by country, built from Microsoft Q1 2026 AI diffusion data, UN population data, and World Bank infrastructure indicators.">
+<meta property="og:url" content="https://ekin-kahraman.github.io/ai-users/">
+<meta property="og:image" content="https://ekin-kahraman.github.io/ai-users/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Users">
+<meta name="twitter:description" content="Estimated generative AI usage by country, built from public data.">
+<meta name="twitter:image" content="https://ekin-kahraman.github.io/ai-users/social-card.png">
 <link rel="icon" href="data:,">
 <title>AI Users</title>
 <style>
@@ -57,13 +68,16 @@ body {
   font-weight: 800;
   margin-bottom: 12px;
 }
-.inspired-link {
+.top-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: -4px;
   margin-bottom: 12px;
   color: var(--muted);
   font-size: 13px;
 }
-.inspired-link a { color: #d9d4ff; }
+.top-links a { color: #d9d4ff; }
 .intro p {
   max-width: 1120px;
   font-size: 15px;
@@ -303,13 +317,17 @@ canvas#canvas {
     <div class="intro">
       <div class="eyebrow">Cross-country usage model</div>
       <h1>AI Users</h1>
-      <div class="inspired-link"><a href="https://github.com/Ekin-Kahraman/ai-users">GitHub</a></div>
+      <div class="top-links">
+        <a href="https://github.com/Ekin-Kahraman/ai-users">GitHub repo</a>
+        <a href="data.json">Site data</a>
+      </div>
       <p>This prototype estimates how many working-age people use generative AI in each country, tracks the comparable public series from <b>H1 2025</b> to <b>Q1 2026</b>, and compares adoption with an infrastructure model based on internet access, electricity access, and GDP per head.</p>
       <p>The main usage table comes from <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2026/05/Microsoft-AI-Diffusion-Report-2026-Q1.pdf">Microsoft's Global AI Diffusion Q1 2026 report</a>. Population comes from <a href="https://ourworldindata.org/grapher/dependency-age-groups-to-2100">UN WPP via Our World in Data</a>. Internet, electricity, GDP, region, and income metadata come from the <a href="https://data.worldbank.org/">World Bank</a>.</p>
       <div class="method-row">
         <div class="pill"><strong>Area</strong> = Q1 2026 estimated AI users</div>
         <div class="pill"><strong>Colour</strong> = selected layer</div>
         <div class="pill"><strong>Potential users</strong> = reachable non-users, not a forecast</div>
+        <div class="pill"><strong>Coverage</strong> = 147 countries, 145 with infrastructure inputs</div>
       </div>
       <details>
         <summary>View the model definition and caveats</summary>

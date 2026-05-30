@@ -1,6 +1,6 @@
 window.AI_COUNTRY_USAGE_DATA = {
   "summary": {
-    "generated_at": "2026-05-30T18:32:49+00:00",
+    "generated_at": "2026-05-30T19:12:03+00:00",
     "country_count": 147,
     "main_ai_source_period": "Q1 2026",
     "baseline_periods": [
