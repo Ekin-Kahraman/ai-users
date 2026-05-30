@@ -78,6 +78,7 @@ body {
   font-size: 13px;
 }
 .top-links a { color: #d9d4ff; }
+.mobile-summary { display: none; }
 .intro p {
   max-width: 1120px;
   font-size: 15px;
@@ -141,6 +142,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  min-width: 0;
 }
 .stat-section h3 {
   color: var(--muted);
@@ -204,6 +206,10 @@ body {
   margin-bottom: 16px;
 }
 
+.detail-stats {
+  padding: 18px 28px 0;
+}
+
 .hbar-chart { display: flex; flex-direction: column; gap: 4px; width: 246px; max-width: 100%; }
 .hbar-row {
   display: grid;
@@ -249,6 +255,7 @@ canvas#canvas {
   cursor: default;
   border-top: 1px solid rgba(255,255,255,0.08);
   background: #05050a;
+  touch-action: manipulation;
 }
 
 .footer-credit {
@@ -296,17 +303,107 @@ canvas#canvas {
 }
 
 @media (max-width: 720px) {
-  #header { padding: 18px 14px 12px; }
-  .intro h1 { font-size: 27px; }
-  .intro p { font-size: 14px; }
-  .stats-row { gap: 16px 18px; }
-  .stat-big { font-size: 28px; }
+  #header { padding: 14px 12px 10px; }
+  .intro { margin-bottom: 12px; }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+  .intro h1 {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+  .top-links {
+    gap: 12px;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .intro p {
+    font-size: 14px;
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+  .lede { display: none; }
+  .mobile-summary { display: block; }
+  .source-copy { display: none; }
+  .method-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin: 10px 0 8px;
+  }
+  .pill {
+    border-radius: 7px;
+    padding: 7px 8px;
+    font-size: 11px;
+    line-height: 1.25;
+  }
+  .pill.mobile-secondary { display: none; }
+  .intro details { margin: 8px 0; }
+  .intro summary { font-size: 13px; }
+  .controls-row {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .mode-toggle {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    margin: 0 -12px;
+    padding: 0 12px 4px;
+  }
+  .mode-toggle::-webkit-scrollbar { display: none; }
+  .mode-toggle button {
+    flex: 0 0 auto;
+    min-height: 40px;
+    padding: 8px 11px;
+    white-space: nowrap;
+  }
+  .legend {
+    margin-top: 7px;
+    min-height: 24px;
+  }
+  .primary-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .primary-stats .stat-big {
+    font-size: 23px;
+    line-height: 1.05;
+  }
+  .primary-stats .stat-label {
+    font-size: 10px;
+    line-height: 1.25;
+  }
+  .primary-stats h3 {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .detail-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 14px 12px 0;
+    margin-bottom: 0;
+  }
+  .detail-stats .stat-section { width: 100%; }
+  .detail-stats .stat-big { font-size: 28px; }
+  .footer-credit { padding: 16px 12px 0; }
 }
 
 @media (max-width: 430px) {
-  .stat-section { width: 100%; }
   .hbar-chart { width: 100%; }
   .hbar-row { grid-template-columns: minmax(104px, 118px) minmax(38px, 1fr) minmax(48px, auto); }
+}
+
+@media (max-width: 340px) {
+  .primary-stats .stat-big { font-size: 21px; }
+  .primary-stats .stat-label { font-size: 9.5px; }
+  .hbar-row { grid-template-columns: minmax(92px, 104px) minmax(34px, 1fr) minmax(45px, auto); }
 }
 </style>
 </head>
@@ -321,12 +418,13 @@ canvas#canvas {
         <a href="https://github.com/Ekin-Kahraman/ai-users">GitHub repo</a>
         <a href="data.json">Site data</a>
       </div>
-      <p>This prototype estimates how many working-age people use generative AI in each country, tracks the comparable public series from <b>H1 2025</b> to <b>Q1 2026</b>, and compares adoption with an infrastructure model based on internet access, electricity access, and GDP per head.</p>
-      <p>The main usage table comes from <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2026/05/Microsoft-AI-Diffusion-Report-2026-Q1.pdf">Microsoft's Global AI Diffusion Q1 2026 report</a>. Population comes from <a href="https://ourworldindata.org/grapher/dependency-age-groups-to-2100">UN WPP via Our World in Data</a>. Internet, electricity, GDP, region, and income metadata come from the <a href="https://data.worldbank.org/">World Bank</a>.</p>
+      <p class="lede">This prototype estimates how many working-age people use generative AI in each country, tracks the comparable public series from <b>H1 2025</b> to <b>Q1 2026</b>, and compares adoption with an infrastructure model based on internet access, electricity access, and GDP per head.</p>
+      <p class="mobile-summary"><b>147 countries.</b> Area is estimated Q1 2026 AI users; colour is the selected layer.</p>
+      <p class="source-copy">The main usage table comes from <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2026/05/Microsoft-AI-Diffusion-Report-2026-Q1.pdf">Microsoft's Global AI Diffusion Q1 2026 report</a>. Population comes from <a href="https://ourworldindata.org/grapher/dependency-age-groups-to-2100">UN WPP via Our World in Data</a>. Internet, electricity, GDP, region, and income metadata come from the <a href="https://data.worldbank.org/">World Bank</a>.</p>
       <div class="method-row">
         <div class="pill"><strong>Area</strong> = Q1 2026 estimated AI users</div>
         <div class="pill"><strong>Colour</strong> = selected layer</div>
-        <div class="pill"><strong>Potential users</strong> = reachable non-users, not a forecast</div>
+        <div class="pill mobile-secondary"><strong>Potential users</strong> = reachable non-users, not a forecast</div>
         <div class="pill"><strong>Coverage</strong> = 147 countries, 145 with infrastructure inputs</div>
       </div>
       <details>
@@ -336,6 +434,7 @@ canvas#canvas {
           <p><code>access_ceiling_pct = min(internet_user_pct, electricity_access_pct)</code></p>
           <p><code>access_headroom_users = max(0, access_ceiling_pct - ai_share_q1_2026_pct) / 100 * working_age_population_2026</code></p>
           <p><code>diffusion_gap_pp = actual_q1_2026_ai_share - infrastructure_modelled_ai_share</code></p>
+          <p>The main usage table comes from <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2026/05/Microsoft-AI-Diffusion-Report-2026-Q1.pdf">Microsoft's Global AI Diffusion Q1 2026 report</a>. Population comes from <a href="https://ourworldindata.org/grapher/dependency-age-groups-to-2100">UN WPP via Our World in Data</a>. Internet, electricity, GDP, region, and income metadata come from the <a href="https://data.worldbank.org/">World Bank</a>.</p>
           <p>Microsoft's AI diffusion values are modelled telemetry estimates, not surveys. The comparable public country series in this build starts at H1 2025, so the page shows H1 2025, H2 2025, and Q1 2026 rather than inventing a 2024 country baseline. World Bank infrastructure indicators use the latest available value up to 2024, so infrastructure can lag the AI period. Potential users is a reachability model, not a prediction that those people will use AI.</p>
         </div>
       </details>
@@ -362,7 +461,7 @@ canvas#canvas {
       </div>
     </div>
 
-    <div class="stats-row">
+    <div class="stats-row primary-stats">
       <div class="stat-section">
         <h3>Q1 2026 users</h3>
         <div class="stat-big" id="statTotalUsers">loading</div>
@@ -370,15 +469,17 @@ canvas#canvas {
       </div>
       <div class="stat-section" id="block2"></div>
       <div class="stat-section" id="block3"></div>
-      <div class="stat-section" id="block4"></div>
-      <div class="stat-section" id="block5"></div>
-      <div class="stat-section" id="block6"></div>
-      <div class="stat-section" id="block7"></div>
-      <div class="stat-section" id="block8"></div>
     </div>
   </div>
 
   <canvas id="canvas"></canvas>
+  <div class="stats-row detail-stats">
+    <div class="stat-section" id="block4"></div>
+    <div class="stat-section" id="block5"></div>
+    <div class="stat-section" id="block6"></div>
+    <div class="stat-section" id="block7"></div>
+    <div class="stat-section" id="block8"></div>
+  </div>
   <div class="footer-credit">Inspired by <a href="https://github.com/karpathy/jobs">Andrej Karpathy's jobs</a>.</div>
 </div>
 
@@ -396,6 +497,7 @@ let countries = [];
 let rects = [];
 let hovered = null;
 let colorMode = "users";
+let lastPointerType = "mouse";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -848,16 +950,26 @@ function showTooltip(d, mx, my) {
     <span class="label">Potential users</span><span class="value">${formatCount(d.access_headroom_users)}</span>
     <span class="label">Region</span><span class="value">${escapeHtml(d.region)}</span>`;
   tt.querySelector(".tt-note").textContent = "Area is Q1 2026 estimated AI users. Above Expected compares actual share with an infrastructure-only estimate.";
-  let tx = mx + 16, ty = my - 16;
-  if (tx + 370 > window.innerWidth) tx = mx - 382;
-  if (ty < 10) ty = my + 16;
-  if (ty + 260 > window.innerHeight) ty = window.innerHeight - 272;
+  tt.style.left = "0px";
+  tt.style.top = "0px";
+  tt.classList.add("visible");
+  const ttWidth = Math.min(tt.offsetWidth || 360, window.innerWidth - 24);
+  const ttHeight = Math.min(tt.offsetHeight || 260, window.innerHeight - 24);
+  let tx = mx + 16;
+  if (tx + ttWidth + 12 > window.innerWidth) tx = mx - ttWidth - 16;
+  tx = Math.max(12, Math.min(tx, window.innerWidth - ttWidth - 12));
+  let ty = my - 16;
+  if (ty < 12) ty = my + 16;
+  ty = Math.max(12, Math.min(ty, window.innerHeight - ttHeight - 12));
   tt.style.left = tx + "px";
   tt.style.top = ty + "px";
-  tt.classList.add("visible");
 }
 
 function hideTooltip() { document.getElementById("tooltip").classList.remove("visible"); }
+
+canvas.addEventListener("pointerdown", event => {
+  lastPointerType = event.pointerType || "mouse";
+});
 
 canvas.addEventListener("mousemove", event => {
   const hit = hitTest(event.clientX, event.clientY);
@@ -870,7 +982,19 @@ canvas.addEventListener("mouseleave", () => { hovered = null; hideTooltip(); dra
 
 canvas.addEventListener("click", event => {
   const hit = hitTest(event.clientX, event.clientY);
-  if (hit && hit.source_url) window.open(hit.source_url, "_blank", "noopener");
+  if (!hit) {
+    hovered = null;
+    hideTooltip();
+    draw();
+    return;
+  }
+  if (lastPointerType !== "mouse") {
+    hovered = hit;
+    draw();
+    showTooltip(hit, event.clientX, event.clientY);
+    return;
+  }
+  if (hit.source_url) window.open(hit.source_url, "_blank", "noopener");
 });
 
 document.getElementById("colorToggle").addEventListener("click", event => {
@@ -879,6 +1003,7 @@ document.getElementById("colorToggle").addEventListener("click", event => {
   colorMode = button.dataset.mode;
   document.querySelectorAll("#colorToggle button").forEach(btn => btn.classList.remove("active"));
   button.classList.add("active");
+  button.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   updateStats();
   drawGradientLegend();
   draw();
