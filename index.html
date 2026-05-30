@@ -309,7 +309,7 @@ canvas#canvas {
       <div class="method-row">
         <div class="pill"><strong>Area</strong> = Q1 2026 estimated AI users</div>
         <div class="pill"><strong>Colour</strong> = selected layer</div>
-        <div class="pill"><strong>Access headroom</strong> = reachable non-users, not a forecast</div>
+        <div class="pill"><strong>Potential users</strong> = reachable non-users, not a forecast</div>
       </div>
       <details>
         <summary>View the model definition and caveats</summary>
@@ -318,7 +318,7 @@ canvas#canvas {
           <p><code>access_ceiling_pct = min(internet_user_pct, electricity_access_pct)</code></p>
           <p><code>access_headroom_users = max(0, access_ceiling_pct - ai_share_q1_2026_pct) / 100 * working_age_population_2026</code></p>
           <p><code>diffusion_gap_pp = actual_q1_2026_ai_share - infrastructure_modelled_ai_share</code></p>
-          <p>Microsoft's AI diffusion values are modelled telemetry estimates, not surveys. The comparable public country series in this build starts at H1 2025, so the page shows H1 2025, H2 2025, and Q1 2026 rather than inventing a 2024 country baseline. World Bank infrastructure indicators use the latest available value up to 2024, so infrastructure can lag the AI period. Access headroom is a reachability model, not a prediction that those people will use AI.</p>
+          <p>Microsoft's AI diffusion values are modelled telemetry estimates, not surveys. The comparable public country series in this build starts at H1 2025, so the page shows H1 2025, H2 2025, and Q1 2026 rather than inventing a 2024 country baseline. World Bank infrastructure indicators use the latest available value up to 2024, so infrastructure can lag the AI period. Potential users is a reachability model, not a prediction that those people will use AI.</p>
         </div>
       </details>
     </div>
@@ -328,11 +328,11 @@ canvas#canvas {
         <h3>Layer</h3>
         <div class="mode-toggle" id="colorToggle">
           <button data-mode="users" class="active">Users</button>
-          <button data-mode="share">2026 Share</button>
+          <button data-mode="share">Adoption Rate</button>
           <button data-mode="momentum">Momentum</button>
           <button data-mode="readiness">Readiness</button>
-          <button data-mode="gap">Model Gap</button>
-          <button data-mode="headroom">Headroom</button>
+          <button data-mode="gap">Above Expected</button>
+          <button data-mode="headroom">Potential Users</button>
           <button data-mode="intensity">Internet Intensity</button>
           <button data-mode="region">Region</button>
         </div>
@@ -534,7 +534,7 @@ function tileSubInfo(d) {
   if (colorMode === "momentum") return `+${d.h2_to_q1_change_pp.toFixed(1)} pp - ${signedCount(d.estimated_user_change_h2_to_q1)}`;
   if (colorMode === "readiness") return `${formatPct(d.readiness_score)} readiness`;
   if (colorMode === "gap" && d.diffusion_gap_pp == null) return "not modelled";
-  if (colorMode === "gap") return `${d.diffusion_gap_pp >= 0 ? "+" : ""}${d.diffusion_gap_pp.toFixed(1)} pp vs model`;
+  if (colorMode === "gap") return `${d.diffusion_gap_pp >= 0 ? "+" : ""}${d.diffusion_gap_pp.toFixed(1)} pp vs expected`;
   if (colorMode === "headroom") return `${formatCount(d.access_headroom_users)} reachable non-users`;
   if (colorMode === "intensity") return `${formatPct(d.internet_normalised_ai_intensity_pct)} of internet users`;
   return d.region;
@@ -724,7 +724,7 @@ function updateStats() {
   document.getElementById("statTotalUsers").textContent = formatCount(s.total_estimated_ai_users_q1_2026);
   document.getElementById("statSourceYears").textContent = `${s.main_ai_source_period}; ${s.country_count} countries`;
 
-  document.getElementById("block2").innerHTML = `<h3>Weighted share</h3>
+  document.getElementById("block2").innerHTML = `<h3>Adoption rate</h3>
     <div class="stat-big" style="color:${turbo(s.weighted_ai_user_share_q1_2026_pct / 70)}">${formatPct(s.weighted_ai_user_share_q1_2026_pct)}</div>
     <div class="stat-label">working-age population</div>`;
 
@@ -733,9 +733,9 @@ function updateStats() {
     <div class="stat-label">H2 2025 to Q1 2026, ${signedPct(s.estimated_user_growth_h2_to_q1_pct)} growth</div>`;
 
   if (colorMode === "share") {
-    document.getElementById("block4").innerHTML = `<h3>Highest share</h3><div class="stat-big" style="color:${turbo(topShare.ai_share_q1_2026_pct / 70)}">${formatPct(topShare.ai_share_q1_2026_pct, 0)}</div><div class="stat-label">${escapeHtml(topShare.country)}</div>`;
+    document.getElementById("block4").innerHTML = `<h3>Highest adoption</h3><div class="stat-big" style="color:${turbo(topShare.ai_share_q1_2026_pct / 70)}">${formatPct(topShare.ai_share_q1_2026_pct, 0)}</div><div class="stat-label">${escapeHtml(topShare.country)}</div>`;
     document.getElementById("block5").innerHTML = `<h3>Largest base</h3><div class="stat-big">${formatCount(topUser.estimated_ai_users_q1_2026)}</div><div class="stat-label">${escapeHtml(topUser.country)}</div>`;
-    document.getElementById("block6").innerHTML = `<h3>Top share</h3><div class="hbar-chart">${hbars(topRows("ai_share_q1_2026_pct"), "country", "ai_share_q1_2026_pct", v => formatPct(v, 0), row => turbo(row.ai_share_q1_2026_pct / 70))}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Top adoption</h3><div class="hbar-chart">${hbars(topRows("ai_share_q1_2026_pct"), "country", "ai_share_q1_2026_pct", v => formatPct(v, 0), row => turbo(row.ai_share_q1_2026_pct / 70))}</div>`;
     document.getElementById("block7").innerHTML = `<h3>Regions</h3><div class="hbar-chart">${regionBars()}</div>`;
     document.getElementById("block8").innerHTML = "";
   } else if (colorMode === "users") {
@@ -757,15 +757,15 @@ function updateStats() {
     document.getElementById("block7").innerHTML = `<h3>Lagging readiness</h3><div class="hbar-chart">${hbars(topRows("readiness_score", 5, false), "country", "readiness_score", v => formatPct(v, 0), row => tileColor(row, 1))}</div>`;
     document.getElementById("block8").innerHTML = "";
   } else if (colorMode === "gap") {
-    document.getElementById("block4").innerHTML = `<h3>Most above model</h3><div class="stat-big" style="color:var(--lime)">+${topGap.diffusion_gap_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(topGap.country)}</div>`;
-    document.getElementById("block5").innerHTML = `<h3>Most below model</h3><div class="stat-big" style="color:var(--hot)">${lowGap.diffusion_gap_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(lowGap.country)}</div>`;
-    document.getElementById("block6").innerHTML = `<h3>Above model</h3><div class="hbar-chart">${hbars(topRows("diffusion_gap_pp"), "country", "diffusion_gap_pp", v => (v >= 0 ? "+" : "") + v.toFixed(1), row => tileColor(row, 1))}</div>`;
-    document.getElementById("block7").innerHTML = `<h3>Below model</h3><div class="hbar-chart">${hbars(topRows("diffusion_gap_pp", 5, false), "country", "diffusion_gap_pp", v => v.toFixed(1), row => tileColor(row, 1))}</div>`;
-    document.getElementById("block8").innerHTML = `<h3>Model fit</h3><div class="stat-big">${s.modelled_country_count}</div><div class="stat-label">countries scored; directional, not causal</div>`;
+    document.getElementById("block4").innerHTML = `<h3>Most above expected</h3><div class="stat-big" style="color:var(--lime)">+${topGap.diffusion_gap_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(topGap.country)}</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Most below expected</h3><div class="stat-big" style="color:var(--hot)">${lowGap.diffusion_gap_pp.toFixed(1)}</div><div class="stat-label">pp, ${escapeHtml(lowGap.country)}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Above expected</h3><div class="hbar-chart">${hbars(topRows("diffusion_gap_pp"), "country", "diffusion_gap_pp", v => (v >= 0 ? "+" : "") + v.toFixed(1), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block7").innerHTML = `<h3>Below expected</h3><div class="hbar-chart">${hbars(topRows("diffusion_gap_pp", 5, false), "country", "diffusion_gap_pp", v => v.toFixed(1), row => tileColor(row, 1))}</div>`;
+    document.getElementById("block8").innerHTML = `<h3>Expected model</h3><div class="stat-big">${s.modelled_country_count}</div><div class="stat-label">countries scored; directional, not causal</div>`;
   } else if (colorMode === "headroom") {
-    document.getElementById("block4").innerHTML = `<h3>Access headroom</h3><div class="stat-big" style="color:var(--green)">${formatCount(s.total_access_headroom_users)}</div><div class="stat-label">reachable non-users model</div>`;
-    document.getElementById("block5").innerHTML = `<h3>Largest headroom</h3><div class="stat-big">${formatCount(topHeadroom.access_headroom_users)}</div><div class="stat-label">${escapeHtml(topHeadroom.country)}</div>`;
-    document.getElementById("block6").innerHTML = `<h3>Headroom leaders</h3><div class="hbar-chart">${hbars(topRows("access_headroom_users"), "country", "access_headroom_users", formatCount, row => tileColor(row, 1))}</div>`;
+    document.getElementById("block4").innerHTML = `<h3>Potential users</h3><div class="stat-big" style="color:var(--green)">${formatCount(s.total_access_headroom_users)}</div><div class="stat-label">reachable non-users model</div>`;
+    document.getElementById("block5").innerHTML = `<h3>Largest potential</h3><div class="stat-big">${formatCount(topHeadroom.access_headroom_users)}</div><div class="stat-label">${escapeHtml(topHeadroom.country)}</div>`;
+    document.getElementById("block6").innerHTML = `<h3>Potential users</h3><div class="hbar-chart">${hbars(topRows("access_headroom_users"), "country", "access_headroom_users", formatCount, row => tileColor(row, 1))}</div>`;
     document.getElementById("block7").innerHTML = `<h3>Offline adults</h3><div class="stat-big">${formatCount(s.total_offline_working_age_population)}</div><div class="stat-label">working-age people without internet access</div>`;
     document.getElementById("block8").innerHTML = "";
   } else if (colorMode === "intensity") {
@@ -798,12 +798,12 @@ function drawGradientLegend() {
     gctx.fillRect(x, 0, 1, c.height);
   }
   const labels = {
-    share: ["Low share", "High share"],
+    share: ["Lower adoption", "Higher adoption"],
     users: ["Fewer users", "More users"],
     momentum: ["Slower", "Faster"],
     readiness: ["Lower readiness", "Higher readiness"],
-    gap: ["Below model", "Above model"],
-    headroom: ["Less headroom", "More headroom"],
+    gap: ["Below expected", "Above expected"],
+    headroom: ["Less potential", "More potential"],
     intensity: ["Lower intensity", "Higher intensity"]
   }[colorMode];
   document.getElementById("legendLow").textContent = labels[0];
@@ -814,7 +814,7 @@ function showTooltip(d, mx, my) {
   const tt = document.getElementById("tooltip");
   const color = tileColor(d, 1);
   tt.querySelector(".tt-title").textContent = d.country;
-  tt.querySelector(".tt-highlight").innerHTML = `<span style="color:${color};font-weight:800;">${formatPct(d.ai_share_q1_2026_pct)} AI share in Q1 2026</span>
+  tt.querySelector(".tt-highlight").innerHTML = `<span style="color:${color};font-weight:800;">${formatPct(d.ai_share_q1_2026_pct)} adoption in Q1 2026</span>
     <div style="margin-top:5px;height:5px;background:rgba(255,255,255,0.09);border-radius:999px;">
       <div style="height:100%;width:${Math.min(100, d.ai_share_q1_2026_pct / 70 * 100)}%;background:${color};border-radius:999px;"></div>
     </div>`;
@@ -825,11 +825,11 @@ function showTooltip(d, mx, my) {
     <span class="label">Internet access</span><span class="value">${formatPct(d.internet_user_pct)} ${d.internet_year ? '(' + d.internet_year + ')' : ''}</span>
     <span class="label">Electricity access</span><span class="value">${formatPct(d.electricity_access_pct)} ${d.electricity_year ? '(' + d.electricity_year + ')' : ''}</span>
     <span class="label">Readiness score</span><span class="value">${formatPct(d.readiness_score)}</span>
-    <span class="label">Modelled share</span><span class="value">${formatPct(d.modelled_ai_share_q1_2026_pct)}</span>
-    <span class="label">Diffusion gap</span><span class="value">${d.diffusion_gap_pp == null ? "n/a" : (d.diffusion_gap_pp >= 0 ? "+" : "") + d.diffusion_gap_pp.toFixed(1) + " pp"}</span>
-    <span class="label">Access headroom</span><span class="value">${formatCount(d.access_headroom_users)}</span>
+    <span class="label">Expected share</span><span class="value">${formatPct(d.modelled_ai_share_q1_2026_pct)}</span>
+    <span class="label">Vs expected</span><span class="value">${d.diffusion_gap_pp == null ? "n/a" : (d.diffusion_gap_pp >= 0 ? "+" : "") + d.diffusion_gap_pp.toFixed(1) + " pp"}</span>
+    <span class="label">Potential users</span><span class="value">${formatCount(d.access_headroom_users)}</span>
     <span class="label">Region</span><span class="value">${escapeHtml(d.region)}</span>`;
-  tt.querySelector(".tt-note").textContent = "Area is Q1 2026 estimated AI users. Model gap compares actual share with an infrastructure-only estimate.";
+  tt.querySelector(".tt-note").textContent = "Area is Q1 2026 estimated AI users. Above Expected compares actual share with an infrastructure-only estimate.";
   let tx = mx + 16, ty = my - 16;
   if (tx + 370 > window.innerWidth) tx = mx - 382;
   if (ty < 10) ty = my + 16;
