@@ -6,7 +6,7 @@ A research tool for visually exploring estimated generative AI usage by country.
 
 ## What's here
 
-The current build covers **147 countries/economies** from Microsoft's public Q1 2026 AI diffusion appendix, spanning about **5.3B** working-age people in the source-covered countries. We join that usage table to UN population data and World Bank infrastructure indicators, then build an interactive treemap where each rectangle's **area** is proportional to estimated Q1 2026 AI users and **colour** shows the selected metric - toggle between total users, AI user share, recent momentum, infrastructure readiness, model gap, access headroom, internet intensity, and region.
+The current build covers **147 countries/economies** from Microsoft's public Q1 2026 AI diffusion appendix, spanning about **5.3B** working-age people in the source-covered countries. We join that usage table to UN population data and World Bank infrastructure indicators, then build an interactive treemap where each rectangle's **area** is proportional to estimated Q1 2026 AI users and **colour** shows the selected metric - toggle between total users, adoption rate, recent momentum, infrastructure readiness, above/below expected adoption, potential users, internet intensity, and region.
 
 The headline estimate is about **948.1M** Q1 2026 working-age AI users in the countries covered by the source data.
 
@@ -15,11 +15,11 @@ The headline estimate is about **948.1M** Q1 2026 working-age AI users in the co
 The repo includes a small data pipeline for writing custom country-level metrics into the static site. The default layers are source-backed metrics and transparent model outputs:
 
 - **Users** - estimated Q1 2026 AI users.
-- **2026 Share** - Q1 2026 AI diffusion share.
+- **Adoption Rate** - Q1 2026 AI diffusion share.
 - **Momentum** - percentage-point growth from H2 2025 to Q1 2026.
 - **Readiness** - a weighted score from internet access, electricity access, and GDP per head.
-- **Model Gap** - actual Q1 2026 AI share minus an infrastructure-only modelled share.
-- **Headroom** - reachable working-age non-users under the access ceiling model.
+- **Above Expected** - actual Q1 2026 AI share minus an infrastructure-only expected share.
+- **Potential Users** - reachable working-age non-users under the access ceiling model.
 - **Internet Intensity** - AI share divided by internet access.
 - **Region** - World Bank region grouping.
 
@@ -28,8 +28,8 @@ The repo includes a small data pipeline for writing custom country-level metrics
 - They do **not** count every regular, paid, daily, enterprise, or heavy AI user.
 - They do **not** predict future adoption.
 - They do **not** use a fabricated 2024 country baseline. The comparable Microsoft country series in this build starts at H1 2025, so the growth series is H1 2025 -> H2 2025 -> Q1 2026.
-- They do **not** imply that infrastructure causes adoption. The model gap is directional and exploratory.
-- Model-gap scoring is only calculated for countries with complete internet, electricity, and GDP inputs.
+- They do **not** imply that infrastructure causes adoption. Above/below expected adoption is directional and exploratory.
+- Above/below expected scoring is only calculated for countries with complete internet, electricity, and GDP inputs.
 - They are modelled estimates from public sources, not official statistics.
 
 ## Data pipeline
@@ -38,7 +38,7 @@ The repo includes a small data pipeline for writing custom country-level metrics
 2. **Extract table** (`build_site_data.py`) - uses `pdftotext -layout` to parse the report appendix into H1 2025, H2 2025, and Q1 2026 country shares.
 3. **Fetch population denominators** (`build_site_data.py`) - downloads UN World Population Prospects working-age population data through Our World in Data.
 4. **Fetch infrastructure data** (`build_site_data.py`) - downloads World Bank country metadata plus internet access, electricity access, and GDP per capita indicators.
-5. **Join and model** (`build_site_data.py`) - matches countries by ISO3 code, computes estimated users, growth, readiness, headroom, internet intensity, and model gap.
+5. **Join and model** (`build_site_data.py`) - matches countries by ISO3 code, computes estimated users, growth, readiness, potential users, internet intensity, and above/below expected adoption.
 6. **Build site data** (`build_site_data.py`) - writes `country_usage.csv`, `site/data.json`, and `site/data.js`.
 7. **Website** (`site/index.html`) - renders the interactive treemap as a static site with no build step.
 
@@ -46,7 +46,7 @@ The repo includes a small data pipeline for writing custom country-level metrics
 
 | File | Description |
 |------|-------------|
-| `country_usage.csv` | Generated country table with estimates, growth metrics, infrastructure fields, model gap, ranks, and source URL |
+| `country_usage.csv` | Generated country table with estimates, growth metrics, infrastructure fields, above/below expected adoption, ranks, and source URL |
 | `site/data.json` | Generated JSON consumed by the static frontend |
 | `site/data.js` | Generated browser fallback so `site/index.html` can be opened directly from disk |
 | `site/index.html` | Static treemap visualisation |

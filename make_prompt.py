@@ -108,9 +108,9 @@ def main() -> int:
         "- H1 2025, H2 2025, and Q1 2026 values come from the Microsoft Q1 2026 appendix table.",
         "- The public country-level Microsoft series in this build starts at H1 2025, so do not present a 2024 country growth rate unless another comparable source is added.",
         "- Infrastructure indicators are latest available World Bank values up to 2024, so they lag the AI period.",
-        "- Model-gap scoring is only calculated for countries with complete internet, electricity, and GDP inputs.",
+        "- Above/below expected scoring is only calculated for countries with complete internet, electricity, and GDP inputs.",
         "- The infrastructure model is explanatory and directional. It is not a causal model and should not be described as a forecast.",
-        "- Access headroom is a reachability model, not a prediction that those people will adopt AI.",
+        "- Potential users is a reachability model, not a prediction that those people will adopt AI.",
         "- Treat this as a directional prototype, not an official count of regular AI users.",
         "",
         "Dataset summary:",
@@ -125,9 +125,9 @@ def main() -> int:
         f"- H2 2025 to Q1 2026 user growth: {format_pct(summary['estimated_user_growth_h2_to_q1_pct'])}",
         f"- H1 2025 to Q1 2026 user change: {format_count(summary['estimated_user_change_h1_to_q1'])}",
         f"- H1 2025 to Q1 2026 user growth: {format_pct(summary['estimated_user_growth_h1_to_q1_pct'])}",
-        f"- Modelled access headroom: {format_count(summary['total_access_headroom_users'])}",
+        f"- Potential users under access model: {format_count(summary['total_access_headroom_users'])}",
         f"- Infrastructure model training countries: {summary['infrastructure_model']['training_country_count']}",
-        f"- Countries with model-gap scores: {summary['modelled_country_count']}",
+        f"- Countries with above/below expected scores: {summary['modelled_country_count']}",
         "",
         "Top countries by estimated Q1 2026 users:",
         "",
@@ -157,7 +157,7 @@ def main() -> int:
             f"{format_pct(row['h2_to_q1_growth_pct'])} relative growth"
         )
 
-    lines += ["", "Countries most above the infrastructure model:", ""]
+    lines += ["", "Countries most above expected adoption:", ""]
     for row in top_model_gap:
         lines.append(
             f"- {row['country']}: {row['diffusion_gap_pp']:+.1f} pp "
@@ -165,7 +165,7 @@ def main() -> int:
             f"model {format_pct(row['modelled_ai_share_q1_2026_pct'])})"
         )
 
-    lines += ["", "Countries most below the infrastructure model:", ""]
+    lines += ["", "Countries most below expected adoption:", ""]
     for row in bottom_model_gap:
         lines.append(
             f"- {row['country']}: {row['diffusion_gap_pp']:+.1f} pp "
@@ -173,7 +173,7 @@ def main() -> int:
             f"model {format_pct(row['modelled_ai_share_q1_2026_pct'])})"
         )
 
-    lines += ["", "Largest modelled access headroom:", ""]
+    lines += ["", "Largest potential users under access model:", ""]
     for row in top_headroom:
         lines.append(
             f"- {row['country']}: {format_count(row['access_headroom_users'])} reachable non-users, "

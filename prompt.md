@@ -21,9 +21,9 @@ Important caveats:
 - H1 2025, H2 2025, and Q1 2026 values come from the Microsoft Q1 2026 appendix table.
 - The public country-level Microsoft series in this build starts at H1 2025, so do not present a 2024 country growth rate unless another comparable source is added.
 - Infrastructure indicators are latest available World Bank values up to 2024, so they lag the AI period.
-- Model-gap scoring is only calculated for countries with complete internet, electricity, and GDP inputs.
+- Above/below expected scoring is only calculated for countries with complete internet, electricity, and GDP inputs.
 - The infrastructure model is explanatory and directional. It is not a causal model and should not be described as a forecast.
-- Access headroom is a reachability model, not a prediction that those people will adopt AI.
+- Potential users is a reachability model, not a prediction that those people will adopt AI.
 - Treat this as a directional prototype, not an official count of regular AI users.
 
 Dataset summary:
@@ -38,9 +38,9 @@ Dataset summary:
 - H2 2025 to Q1 2026 user growth: 10.0%
 - H1 2025 to Q1 2026 user change: 150.2M
 - H1 2025 to Q1 2026 user growth: 18.8%
-- Modelled access headroom: 2.93B
+- Potential users under access model: 2.93B
 - Infrastructure model training countries: 145
-- Countries with model-gap scores: 145
+- Countries with above/below expected scores: 145
 
 Top countries by estimated Q1 2026 users:
 
@@ -96,7 +96,7 @@ Fastest movers from H2 2025 to Q1 2026:
 - 14. Switzerland: +3.0 percentage points, 8.6% relative growth
 - 15. Turkey: +2.8 percentage points, 19.2% relative growth
 
-Countries most above the infrastructure model:
+Countries most above expected adoption:
 
 - United Arab Emirates: +36.4 pp (actual 70.1%, model 33.7%)
 - Singapore: +25.0 pp (actual 63.4%, model 38.4%)
@@ -114,7 +114,7 @@ Countries most above the infrastructure model:
 - Bulgaria: +7.1 pp (actual 29.7%, model 22.6%)
 - India: +6.9 pp (actual 17.6%, model 10.7%)
 
-Countries most below the infrastructure model:
+Countries most below expected adoption:
 
 - Guyana: -16.5 pp (actual 10.3%, model 26.8%)
 - Russia: -13.4 pp (actual 9.5%, model 22.9%)
@@ -132,7 +132,7 @@ Countries most below the infrastructure model:
 - Denmark: -5.7 pp (actual 31.2%, model 36.9%)
 - Cambodia: -5.6 pp (actual 5.7%, model 11.3%)
 
-Largest modelled access headroom:
+Largest potential users under access model:
 
 - China: 748.4M reachable non-users, 92.0% internet access
 - India: 479.6M reachable non-users, 64.9% internet access
