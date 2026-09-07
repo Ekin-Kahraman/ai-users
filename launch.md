@@ -1,12 +1,12 @@
 # Launch Notes
 
-Use this when sharing the project publicly. The benchmark shape is [karpathy/jobs](https://github.com/karpathy/jobs): one clear demo, one clear source story, generated artefacts in the repo, and caveats that do not overclaim.
+Draft copy for sharing the project. Check that the demo and data snapshot are still current before posting.
 
 ## Links
 
 - Live demo: https://ekin-kahraman.github.io/ai-users/
 - GitHub repo: https://github.com/Ekin-Kahraman/ai-users
-- Benchmark inspiration: https://github.com/karpathy/jobs
+- Design inspiration: https://github.com/karpathy/jobs
 
 ## One-line pitch
 
@@ -33,7 +33,7 @@ I built a small static research tool for exploring estimated generative AI usage
 
 The main usage source is Microsoft's Q1 2026 Global AI Diffusion appendix. I join it to UN working-age population data and World Bank internet, electricity, GDP, region, and income metadata. The page is a treemap: area is estimated Q1 2026 AI users, colour is the selected layer.
 
-Important caveat: this is not an official count of regular AI users. The country-level comparable source series starts at H1 2025, so I show H1 2025 -> H2 2025 -> Q1 2026 rather than inventing a 2024 baseline.
+Important caveat: this is not an official count of regular AI users. The comparable country series starts at H1 2025, so I show H1 2025 -> H2 2025 -> Q1 2026.
 
 Repo: https://github.com/Ekin-Kahraman/ai-users
 Inspired by the shape of karpathy/jobs: https://github.com/karpathy/jobs
